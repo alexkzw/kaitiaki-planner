@@ -1,0 +1,24 @@
+__pycache__/
+*.pyc
+.venv/
+
+# Node/TS (future orchestrator)
+node_modules/
+dist/
+
+# OS/editor
+.DS_Store
+
+# Notebooks
+*.ipynb_checkpoints/
+
+# Env & secrets
+.env
+.env.*
+!.env.example
+
+# Generated data & traces (keep placeholder .gitkeep only)
+services/retriever-py/data/*
+!services/retriever-py/data/.gitkeep
+traces/*
+!traces/.gitkeep
