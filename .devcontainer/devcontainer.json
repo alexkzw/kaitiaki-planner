@@ -1,0 +1,14 @@
+{
+    "name": "kaitiaki-planner",
+    "features": {
+      "ghcr.io/devcontainers/features/python:1": { "version": "3.11" },
+      "ghcr.io/devcontainers/features/node:1":   { "version": "20" }
+    },
+    "postCreateCommand": "pip install -U pip && pip install -r services/retriever-py/requirements.txt && npm i -g pnpm && pnpm i",
+    "forwardPorts": [8000, 8001],
+    "portsAttributes": {
+      "8000": { "label": "orchestrator-ts" },
+      "8001": { "label": "retriever-py" }
+    }
+  }
+  
