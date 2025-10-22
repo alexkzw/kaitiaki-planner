@@ -1,0 +1,19 @@
+{
+    "name": "orchestrator-ts",
+    "version": "0.1.0",
+    "type": "module",
+    "private": true,
+    "scripts": {
+      "dev": "tsx src/server.ts"
+    },
+    "dependencies": {
+      "fastify": "4.26.2",
+      "pino": "9.4.0"
+    },
+    "devDependencies": {
+      "tsx": "4.19.2",
+      "typescript": "5.5.4",
+      "@types/node": "20.11.30"
+    }
+  }
+  
