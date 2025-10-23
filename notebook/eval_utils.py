@@ -143,3 +143,52 @@ def load_eval_tasks(
         eval_tasks.append(task)
     
     return eval_tasks
+
+# ============================================================================
+# METRICS
+# ============================================================================
+
+def grounded_correctness(
+    pred_cites: List[Dict],
+    gold: Dict,
+    iou_thresh: float = 0.3
+) -> float:
+    """
+    Calculate grounded correctness using IoU (Intersection over Union).
+    
+    A prediction is correct if ANY predicted citation overlaps with the gold
+    citation by at least `iou_thresh`.
+    
+    Args:
+        pred_cites: List of predicted citations
+                   [{"doc_id": str, "char_start": int, "char_end": int}, ...]
+        gold: Gold citation {"doc_id": str, "start": int, "end": int}
+        iou_thresh: Minimum IoU threshold (default: 0.3)
+    
+    Returns:
+        1.0 if correct (IoU >= threshold), else 0.0
+    """
+    if not pred_cites:
+        return 0.0
+    
+    gs, ge = gold["start"], gold["end"]
+    gdoc = gold["doc_id"]
+    
+    for c in pred_cites:
+        # Check if doc_id matches
+        if c.get("doc_id") != gdoc:
+            continue
+        
+        # Get predicted span
+        s = int(c.get("char_start", -1))
+        e = int(c.get("char_end", -1))
+        
+        # Calculate IoU
+        intersection = max(0, min(e, ge) - max(s, gs))
+        union = max(ge, e) - min(gs, s)
+        
+        if union > 0:
+            iou = intersection / union
+            if iou >= iou_thresh:
+                return 1.0
+    
