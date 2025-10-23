@@ -192,3 +192,4 @@ def grounded_correctness(
             if iou >= iou_thresh:
                 return 1.0
     
+    return 0.0
