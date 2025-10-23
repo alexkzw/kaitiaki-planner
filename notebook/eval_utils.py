@@ -88,3 +88,58 @@ def find_offsets(corpus: List[Dict], doc_id: str, snippet: str) -> Tuple[int, in
         )
     
     return i, i + len(S)
+
+
+def load_eval_tasks(
+    corpus: List[Dict],
+    tasks_path: str = "../eval/tasks_labeled.yaml"
+) -> List[Dict]:
+    """
+    Load evaluation tasks with gold citation offsets.
+    
+    Args:
+        corpus: Loaded corpus (needed to find offsets)
+        tasks_path: Path to tasks YAML file
+    
+    Returns:
+        List of task dictionaries with structure:
+        {
+            "id": str,
+            "query": str,
+            "lang": "en" | "mi",
+            "complexity": "simple" | "complex",
+            "gold_citations": [{"doc_id": str, "start": int, "end": int}]
+        }
+    """
+    path = Path(tasks_path)
+    
+    # Try labeled version first, fall back to unlabeled
+    if not path.exists():
+        path = Path(tasks_path.replace("_labeled", ""))
+        print(f" Using {path.name} (no complexity labels)")
+    
+    if not path.exists():
+        raise FileNotFoundError(f"Tasks file not found at {path}")
+    
+    with open(path, "r", encoding="utf-8") as f:
+        eval_yaml = yaml.safe_load(f)
+    
+    eval_tasks = []
+    for item in eval_yaml:
+        # Find offsets for gold answer
+        s, e = find_offsets(corpus, item["gold"]["doc_id"], item["gold"]["text_snippet"])
+        
+        task = {
+            "id": item["id"],
+            "query": item["query"],
+            "lang": item["lang"],
+            "complexity": item.get("complexity", "simple"),  # Default if missing
+            "gold_citations": [{
+                "doc_id": item["gold"]["doc_id"],
+                "start": s,
+                "end": e
+            }]
+        }
+        eval_tasks.append(task)
+    
+    return eval_tasks
