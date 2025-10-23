@@ -193,3 +193,22 @@ def grounded_correctness(
                 return 1.0
     
     return 0.0
+
+def fairness_gap(df: pd.DataFrame, lang_col: str = "lang", metric_col: str = "gc") -> float:
+    """
+    Calculate fairness gap between English and Māori languages.
+    
+    Args:
+        df: DataFrame with results
+        lang_col: Column name for language
+        metric_col: Column name for metric to compare
+    
+    Returns:
+        Fairness gap (EN metric - MI metric)
+        Positive = EN performs better (unfair to MI)
+        Negative = MI performs better
+    """
+    by_lang = df.groupby(lang_col)[metric_col].mean()
+    en_score = by_lang.get("en", 0.0)
+    mi_score = by_lang.get("mi", 0.0)
+    return float(en_score - mi_score)
