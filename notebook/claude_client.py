@@ -22,7 +22,7 @@ class ClaudeClient:
     
     # Pricing as of Oct 2025 (USD per million tokens)
     PRICING = {
-        "claude-sonnet-4.5": {
+        "claude-sonnet-4-5": {
             "input": 3.0,   # $3/MTok
             "output": 15.0  # $15/MTok
         }
@@ -31,8 +31,8 @@ class ClaudeClient:
     def __init__(
         self, 
         api_key: Optional[str] = None,
-        model: str = "claude-sonnet-4.5-20250929",
-        max_spend_usd: float = 10.0
+        model: str = "claude-sonnet-4-5-20250929",
+        max_spend_usd: float = 5.0
     ):
         """
         Initialize Claude client with safety limits.
@@ -58,7 +58,7 @@ class ClaudeClient:
     
     def _calculate_cost(self, input_tokens: int, output_tokens: int) -> float:
         """Calculate cost in USD for given token counts."""
-        pricing = self.PRICING["claude-sonnet-4.5"]
+        pricing = self.PRICING["claude-sonnet-4-5"]
         input_cost = (input_tokens / 1_000_000) * pricing["input"]
         output_cost = (output_tokens / 1_000_000) * pricing["output"]
         return input_cost + output_cost
