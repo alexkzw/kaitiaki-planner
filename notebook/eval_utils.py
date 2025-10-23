@@ -212,3 +212,99 @@ def fairness_gap(df: pd.DataFrame, lang_col: str = "lang", metric_col: str = "gc
     en_score = by_lang.get("en", 0.0)
     mi_score = by_lang.get("mi", 0.0)
     return float(en_score - mi_score)
+
+# ============================================================================
+# ANALYSIS HELPERS
+# ============================================================================
+
+def summarize_results(df: pd.DataFrame) -> Dict:
+    """
+    Generate summary statistics for results DataFrame.
+    
+    Args:
+        df: Results DataFrame with columns: gc, cost, refusal, lang, complexity
+    
+    Returns:
+        Dictionary with summary stats
+    """
+    import numpy as np
+    
+    summary = {
+        "total_queries": len(df),
+        "mean_gc": df["gc"].mean(),
+        "total_cost": df["cost"].sum(),
+        "mean_cost": df["cost"].mean(),
+        "refusal_rate": df["refusal"].mean(),
+        "fairness_gap": fairness_gap(df) if "lang" in df.columns else None,
+    }
+    
+    # Add per-slice stats if complexity exists
+    if "complexity" in df.columns:
+        summary["by_slice"] = {}
+        for lang in ["en", "mi"]:
+            for comp in ["simple", "complex"]:
+                slice_df = df[(df["lang"] == lang) & (df["complexity"] == comp)]
+                if len(slice_df) > 0:
+                    summary["by_slice"][f"{lang}_{comp}"] = {
+                        "n": len(slice_df),
+                        "gc": slice_df["gc"].mean(),
+                        "cost": slice_df["cost"].mean(),
+                        "refusal_rate": slice_df["refusal"].mean()
+                    }
+    
+    return summary
+
+
+def print_summary(summary: Dict):
+    """Pretty-print summary statistics."""
+    print("\n" + "="*70)
+    print("RESULTS SUMMARY")
+    print("="*70)
+    print(f"Total queries:   {summary['total_queries']}")
+    print(f"Mean GC:         {summary['mean_gc']:.3f}")
+    print(f"Total cost:      ${summary['total_cost']:.4f}")
+    print(f"Mean cost/query: ${summary['mean_cost']:.6f}")
+    print(f"Refusal rate:    {summary['refusal_rate']:.1%}")
+    
+    if summary.get('fairness_gap') is not None:
+        print(f"Fairness gap:    {summary['fairness_gap']:+.3f} (EN - MI)")
+    
+    if "by_slice" in summary:
+        print("\nBy slice:")
+        for slice_name, stats in summary["by_slice"].items():
+            print(f"  {slice_name:15s}: n={stats['n']:2d}, "
+                  f"GC={stats['gc']:.3f}, "
+                  f"cost=${stats['cost']:.6f}")
+    
+    print("="*70)
+
+
+# ============================================================================
+# MODULE TEST
+# ============================================================================
+
+if __name__ == "__main__":
+    """Test module functions."""
+    print("Testing eval_utils module...")
+    
+    # Test corpus loading
+    try:
+        corpus = load_corpus()
+        print(f"Loaded corpus: {len(corpus)} documents")
+    except FileNotFoundError as e:
+        print(f"{e}")
+    
+    # Test eval tasks loading
+    try:
+        tasks = load_eval_tasks(corpus)
+        print(f"Loaded eval tasks: {len(tasks)} tasks")
+    except Exception as e:
+        print(f"{e}")
+    
+    # Test metrics
+    test_pred = [{"doc_id": "test", "char_start": 0, "char_end": 10}]
+    test_gold = {"doc_id": "test", "start": 5, "end": 15}
+    gc = grounded_correctness(test_pred, test_gold)
+    print(f"Grounded correctness test: {gc}")
+    
+    print("\nAll tests passed!")
