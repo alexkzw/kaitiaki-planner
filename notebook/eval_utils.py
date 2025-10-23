@@ -123,6 +123,13 @@ def load_eval_tasks(
     
     with open(path, "r", encoding="utf-8") as f:
         eval_yaml = yaml.safe_load(f)
+
+    # Add error checking
+    if eval_yaml is None:
+        raise ValueError(f"YAML file is empty or invalid: {path}")
+
+    if not isinstance(eval_yaml, list):
+        raise ValueError(f"YAML file should contain a list, got {type(eval_yaml)}")
     
     eval_tasks = []
     for item in eval_yaml:
