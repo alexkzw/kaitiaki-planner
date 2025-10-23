@@ -113,11 +113,6 @@ def load_eval_tasks(
     """
     path = Path(tasks_path)
     
-    # Try labeled version first, fall back to unlabeled
-    if not path.exists():
-        path = Path(tasks_path.replace("_labeled", ""))
-        print(f" Using {path.name} (no complexity labels)")
-    
     if not path.exists():
         raise FileNotFoundError(f"Tasks file not found at {path}")
     
