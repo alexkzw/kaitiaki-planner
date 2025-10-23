@@ -135,8 +135,8 @@ log.post("/query", async (req, reply) => {
   // Plan budget allocation
   const plan = planBudget(body);
   
-  log.info(`[${plan.mode}] Query: ${body.query.substring(0, 50)}...`);
-  log.info(`[${plan.mode}] Plan: top_k=${plan.top_k}, rerank=${plan.rerank_k}, lang=${plan.lang}, complexity=${plan.complexity}`);
+  log.log.info(`[${plan.mode}] Query: ${body.query.substring(0, 50)}...`);
+  log.log.info(`[${plan.mode}] Plan: top_k=${plan.top_k}, rerank=${plan.rerank_k}, lang=${plan.lang}, complexity=${plan.complexity}`);
 
   try {
     // Stage 1: Retrieve candidates
@@ -149,7 +149,7 @@ log.post("/query", async (req, reply) => {
     );
 
     if (!Array.isArray(candidates) || candidates.length === 0) {
-      log.warn(`[${plan.mode}] No candidates retrieved`);
+      log.log.warn(`[${plan.mode}] No candidates retrieved`);
     }
 
     // Stage 2: Optional reranking
@@ -169,7 +169,7 @@ log.post("/query", async (req, reply) => {
         passages = reranked;
         ms_rerank = ms;
       } catch (err: any) {
-        log.error(`[${plan.mode}] Rerank failed: ${err.message}, using candidates`);
+        log.log.error(`[${plan.mode}] Rerank failed: ${err.message}, using candidates`);
         passages = candidates;
       }
     }
@@ -207,14 +207,14 @@ log.post("/query", async (req, reply) => {
         JSON.stringify(record) + "\n"
       );
     } catch (err: any) {
-      log.error(`Failed to write trace: ${err.message}`);
+      log.log.error(`Failed to write trace: ${err.message}`);
     }
 
     return reply.send(record);
     
   } catch (err: any) {
     const total_ms = Date.now() - started;
-    log.error(`[${plan.mode}] Error: ${err.message}`);
+    log.log.error(`[${plan.mode}] Error: ${err.message}`);
     
     const errorRecord = {
       ts: new Date().toISOString(),
@@ -251,7 +251,7 @@ log.get("/test", async (req, reply) => {
 
 // Start server
 log.listen({ port: PORT, host: "0.0.0.0" }).then(() => {
-  log.info(`Budget-Aware Orchestrator listening on port ${PORT}`);
-  log.info(`Retriever service: ${RETRIEVER_BASE}`);
-  log.info(`Available modes: uniform, language_aware, fairness_aware`);
+  console.log(`✓ Budget-Aware Orchestrator listening on port ${PORT}`);
+  console.log(`✓ Retriever service: ${RETRIEVER_BASE}`);
+  console.log(`✓ Available modes: uniform, language_aware, fairness_aware`);
 });
