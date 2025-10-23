@@ -1,193 +1,209 @@
 """
-Retriever Service (FastAPI)
-- Chunking, embeddings, FAISS retrieval, optional cross-encoder rerank
-- Endpoints: /ingest, /retrieve, /rerank, /healthz, /
-- CPU-friendly defaults; assumes Python 3.11 with torch wheel available
+Budget-Aware RAG Retriever Service
+==================================
 
-Run:
-  uvicorn services.retriever-py.app:app --host 0.0.0.0 --port 8001 --reload
+Simple BM25-based retriever for English and Māori documents.
+Supports retrieval and optional reranking.
 """
 
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
+import json
+from pathlib import Path
 from typing import List, Optional
-import os, pickle, time
-import numpy as np
-import faiss
+import unicodedata
 
-from sentence_transformers import SentenceTransformer, CrossEncoder
+# Initialize FastAPI
+app = FastAPI(title="Budget-Aware Retriever")
 
-APP_DIR = os.path.dirname(__file__)
-DATA_DIR = os.path.join(APP_DIR, "data")
-os.makedirs(DATA_DIR, exist_ok=True)
-
-INDEX_PATH = os.path.join(DATA_DIR, "index.faiss")
-CHUNK_PATH = os.path.join(DATA_DIR, "chunks.pkl")
-
-# --- Config (right-sized defaults) ---
-EMBED_MODEL   = os.environ.get("EMBED_MODEL", "mixedbread-ai/mxbai-embed-large-v1")
-RERANK_MODEL  = os.environ.get("RERANK_MODEL", "cross-encoder/ms-marco-MiniLM-L-6-v2")
-CHUNK_SIZE    = int(os.environ.get("CHUNK_SIZE", 500))
-CHUNK_OVERLAP = int(os.environ.get("CHUNK_OVERLAP", 50))
-
-app = FastAPI(title="Retriever Service", version="0.2.0")
-
-# Lazy-load models once per process
-emb_model = SentenceTransformer(EMBED_MODEL)
-reranker  = CrossEncoder(RERANK_MODEL)
-
-# In-memory stores (persisted after ingest)
-index = None           # FAISS index
-chunk_store = []       # list[dict]: {"doc_id","lang","title","text","char_start","char_end"}
-
-# ---------- Data models ----------
-class Doc(BaseModel):
-    id: str
-    lang: str = Field(pattern="^(en|mi)$")
-    title: str
-    text: str
-
-class IngestRequest(BaseModel):
-    docs: List[Doc]
+# ============================================================================
+# Data Models
+# ============================================================================
 
 class RetrieveRequest(BaseModel):
     query: str
-    top_k: int = 8
-
-class RerankCandidate(BaseModel):
-    doc_id: str
-    text: str
-    char_start: int
-    char_end: int
-    score: Optional[float] = None
+    top_k: int = 5
 
 class RerankRequest(BaseModel):
     query: str
-    candidates: List[RerankCandidate]
-    k: int = 4
+    candidates: List[dict]
+    k: int = 3
 
-# ---------- Helpers ----------
-def chunk_text(text: str, size: int, overlap: int):
-    """Return (start,end,text) windows with char offsets for grounded citations."""
-    chunks = []
-    n = len(text)
-    i = 0
-    while i < n:
-        start = i
-        end = min(i + size, n)
-        chunks.append((start, end, text[start:end]))
-        if end == n: break
-        i = max(0, end - overlap)
-    return chunks
+# ============================================================================
+# Load Corpus
+# ============================================================================
 
-def persist():
-    """Persist FAISS index + chunk metadata for reproducibility."""
-    faiss.write_index(index, INDEX_PATH)
-    with open(CHUNK_PATH, "wb") as f:
-        pickle.dump(chunk_store, f)
+CORPUS_PATH = Path(__file__).parent / "../../data/corpus.json"
+corpus = []
 
-def load_if_exists():
-    """Load metadata for visibility; index is rebuilt only on ingest in this POC."""
-    global index, chunk_store
-    if os.path.exists(INDEX_PATH) and os.path.exists(CHUNK_PATH):
-        with open(CHUNK_PATH, "rb") as f:
-            chunk_store = pickle.load(f)
-        return True
-    return False
+def normalize_text(text: str) -> str:
+    """Normalize text for better matching."""
+    # Normalize unicode (important for Māori text)
+    text = unicodedata.normalize('NFC', text)
+    # Lowercase
+    text = text.lower()
+    return text
 
-# ---------- Endpoints ----------
-@app.get("/")
-def root():
-    return {"ok": True, "service": "retriever", "docs": "/docs", "endpoints": ["/ingest", "/retrieve", "/rerank"]}
+def load_corpus():
+    """Load corpus from JSON file."""
+    global corpus
+    
+    if not CORPUS_PATH.exists():
+        print(f"WARNING: Corpus not found at {CORPUS_PATH}")
+        corpus = []
+        return
+    
+    with open(CORPUS_PATH, 'r', encoding='utf-8') as f:
+        corpus = json.load(f)
+    
+    # Normalize text for searching
+    for doc in corpus:
+        doc['text_normalized'] = normalize_text(doc['text'])
+    
+    print(f"✓ Loaded {len(corpus)} documents")
+    print(f"  English: {sum(1 for d in corpus if d['lang']=='en')}")
+    print(f"  Māori: {sum(1 for d in corpus if d['lang']=='mi')}")
 
-@app.get("/healthz")
-def healthz():
-    return {"status": "ok"}
+# Load corpus on startup
+load_corpus()
 
-@app.post("/ingest")
-def ingest(req: IngestRequest):
+# ============================================================================
+# Simple BM25 Scoring
+# ============================================================================
+
+def simple_bm25_score(query: str, doc_text: str) -> float:
     """
-    WHY: Establish a fixed, tiny corpus for your PoC.
-    WHAT: Chunk docs -> embed chunks -> build FAISS -> persist.
-    RESULT: /retrieve can now return semantically relevant excerpts + offsets.
+    Simplified BM25 scoring.
+    Good enough for this evaluation without external dependencies.
     """
-    global index, chunk_store
-    t0 = time.time()
+    query_normalized = normalize_text(query)
+    query_terms = set(query_normalized.split())
+    
+    if not query_terms:
+        return 0.0
+    
+    doc_normalized = normalize_text(doc_text)
+    doc_terms = doc_normalized.split()
+    
+    if not doc_terms:
+        return 0.0
+    
+    # Count term frequencies
+    score = 0.0
+    for term in query_terms:
+        tf = doc_terms.count(term)
+        if tf > 0:
+            # Simple TF scoring (can be enhanced with IDF later)
+            score += tf / (1.0 + tf)
+    
+    # Normalize by document length (shorter docs get boost)
+    length_norm = 1.0 / (1.0 + len(doc_terms) / 100.0)
+    score *= length_norm
+    
+    return score
 
-    # Clear previous state (right-sized PoC behavior)
-    chunk_store = []
-
-    # 1) Chunk docs and collect metadata
-    all_texts = []
-    for d in req.docs:
-        for (s, e, t) in chunk_text(d.text, CHUNK_SIZE, CHUNK_OVERLAP):
-            chunk_store.append({
-                "doc_id": d.id, "lang": d.lang, "title": d.title,
-                "text": t, "char_start": int(s), "char_end": int(e)
-            })
-            all_texts.append(t)
-
-    if len(all_texts) == 0:
-        raise HTTPException(400, "No text to ingest.")
-
-    # 2) Embed all chunks (unit-normalized for cosine/IP search)
-    X = emb_model.encode(all_texts, normalize_embeddings=True, show_progress_bar=False)
-    X = np.array(X, dtype="float32")
-
-    # 3) Build FAISS IP index
-    index = faiss.IndexFlatIP(X.shape[1])
-    index.add(X)
-
-    persist()
-    return {
-        "status": "ok",
-        "chunks": len(chunk_store),
-        "build_ms": int((time.time()-t0)*1000)
-    }
+# ============================================================================
+# Retrieval Endpoint
+# ============================================================================
 
 @app.post("/retrieve")
-def retrieve(req: RetrieveRequest):
+async def retrieve(request: RetrieveRequest):
     """
-    WHY: First-stage recall (fast, approximate “what might be relevant?”)
-    WHAT: Embed query -> FAISS top-k over chunk vectors -> return candidates.
-    RESULT: Small set of excerpts for downstream re-ranking/prompting.
+    Retrieve top_k documents using BM25 scoring.
+    
+    Returns list of passages with metadata.
     """
-    if index is None or len(chunk_store) == 0:
-        raise HTTPException(400, "Index empty. POST /ingest first.")
-    qv = emb_model.encode([req.query], normalize_embeddings=True)
-    D, I = index.search(np.array(qv, dtype="float32"), req.top_k)
-    out = []
-    for rank, idx in enumerate(I[0]):
-        c = chunk_store[idx]
-        out.append({
-            "doc_id": c["doc_id"],
-            "text": c["text"],
-            "char_start": c["char_start"],
-            "char_end": c["char_end"],
-            "score": float(D[0][rank])
+    if not corpus:
+        raise HTTPException(status_code=503, detail="Corpus not loaded")
+    
+    query = request.query
+    top_k = min(request.top_k, len(corpus))
+    
+    if top_k <= 0:
+        return []
+    
+    # Score all documents
+    scored_docs = []
+    for doc in corpus:
+        score = simple_bm25_score(query, doc['text'])
+        scored_docs.append({
+            "doc_id": doc['id'],
+            "text": doc['text'][:1000],  # Truncate to 1000 chars
+            "char_start": 0,
+            "char_end": min(1000, len(doc['text'])),
+            "score": score,
+            "lang": doc['lang']
         })
-    return out
+    
+    # Sort by score (descending)
+    scored_docs.sort(key=lambda x: x['score'], reverse=True)
+    
+    # Return top_k
+    return scored_docs[:top_k]
+
+# ============================================================================
+# Reranking Endpoint
+# ============================================================================
 
 @app.post("/rerank")
-def rerank(req: RerankRequest):
+async def rerank(request: RerankRequest):
     """
-    WHY: Second-stage precision (re-score candidates with a cross-encoder).
-    WHAT: Cross-encoder predicts relevance score for (query, passage).
-    RESULT: Top-k highest quality excerpts for grounded prompting.
+    Rerank candidates and return top k.
+    
+    For now, just returns top k by existing scores.
+    Can be enhanced with cross-encoder later.
     """
-    if len(req.candidates) == 0:
+    candidates = request.candidates
+    k = min(request.k, len(candidates))
+    
+    if k <= 0:
         return []
+    
+    # If candidates have scores, use them
+    if candidates and 'score' in candidates[0]:
+        # Already scored, just slice
+        return candidates[:k]
+    else:
+        # Rescore with query
+        query = request.query
+        for cand in candidates:
+            cand['score'] = simple_bm25_score(query, cand.get('text', ''))
+        
+        # Sort by score
+        candidates.sort(key=lambda x: x.get('score', 0), reverse=True)
+        
+        return candidates[:k]
 
-    pairs = [(req.query, c.text) for c in req.candidates]
-    scores = reranker.predict(pairs)  # vectorized; ok on CPU for tiny sets
-    scored = []
-    for c, s in zip(req.candidates, scores):
-        scored.append({
-            "doc_id": c.doc_id,
-            "text": c.text,
-            "char_start": c.char_start,
-            "char_end": c.char_end,
-            "score": float(s)
-        })
-    scored.sort(key=lambda x: x["score"], reverse=True)
-    return scored[:req.k]
+# ============================================================================
+# Health Check
+# ============================================================================
+
+@app.get("/healthz")
+async def health():
+    """Health check endpoint."""
+    return {
+        "status": "ok",
+        "corpus_loaded": len(corpus) > 0,
+        "num_documents": len(corpus)
+    }
+
+@app.get("/")
+async def root():
+    """Root endpoint."""
+    return {
+        "service": "budget-aware-retriever",
+        "version": "1.0.0",
+        "corpus_size": len(corpus),
+        "status": "ready" if corpus else "no corpus loaded"
+    }
+
+# ============================================================================
+# Startup Message
+# ============================================================================
+
+if __name__ == "__main__":
+    import uvicorn
+    print("=" * 70)
+    print("Budget-Aware Retriever Service")
+    print("=" * 70)
+    uvicorn.run(app, host="0.0.0.0", port=8001)
