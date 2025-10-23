@@ -15,123 +15,123 @@
 
 - id: en_maori_language_q1
   lang: en
-  query: "[EN] What act gave Māori language official status in New Zealand?"
+  query: '[EN] What act gave Māori language official status in New Zealand?'
   complexity: simple
   gold:
     doc_id: en_maori_language
-    text_snippet: "Māori Language Act 1987"
+    text_snippet: Māori Language Act 1987
 
 - id: en_matariki_q1
   lang: en
-  query: "[EN] What star cluster is Matariki?"
+  query: '[EN] What star cluster is Matariki?'
   complexity: simple
   gold:
     doc_id: en_matariki
-    text_snippet: "Pleiades star cluster"
+    text_snippet: Pleiades star cluster
 
 - id: en_marae_q1
   lang: en
-  query: "[EN] What is a marae in Polynesian societies?"
+  query: '[EN] What is a marae in Polynesian societies?'
   complexity: simple
   gold:
     doc_id: en_marae
-    text_snippet: "communal or sacred place"
+    text_snippet: communal or sacred place
 
 - id: en_mount_tongariro_q1
   lang: en
-  query: "[EN] In which volcanic zone is Mount Tongariro located?"
+  query: '[EN] In which volcanic zone is Mount Tongariro located?'
   complexity: simple
   gold:
     doc_id: en_mount_tongariro
-    text_snippet: "Taupō Volcanic Zone"
+    text_snippet: Taupō Volcanic Zone
 
 - id: en_moa_q1
   lang: en
-  query: "[EN] What type of birds were moa?"
+  query: '[EN] What type of birds were moa?'
   complexity: simple
   gold:
     doc_id: en_moa
-    text_snippet: "flightless birds"
+    text_snippet: flightless birds
 
 - id: en_kaka_q1
   lang: en
-  query: "[EN] What is the scientific name of the New Zealand kākā?"
+  query: '[EN] What is the scientific name of the New Zealand kākā?'
   complexity: simple
   gold:
     doc_id: en_kaka
-    text_snippet: "Nestor meridionalis"
+    text_snippet: Nestor meridionalis
 
 - id: en_kakapo_q1
   lang: en
-  query: "[EN] Can the kākāpō fly?"
+  query: '[EN] Can the kākāpō fly?'
   complexity: simple
   gold:
     doc_id: en_kakapo
-    text_snippet: "flightless parrot"
+    text_snippet: flightless parrot
 
 - id: en_muturangi_q1
   lang: en
-  query: "[EN] What is the name of Muturangi's octopus guardian spirit?"
+  query: '[EN] What is the name of Muturangis octopus guardian spirit?'
   complexity: simple
   gold:
     doc_id: en_muturangi
-    text_snippet: "Te Wheke-a-Muturangi"
+    text_snippet: Te Wheke-a-Muturangi
 
 - id: en_taupo_q1
   lang: en
-  query: "[EN] What type of lake is Lake Taupō?"
+  query: '[EN] What type of lake is Lake Taupō?'
   complexity: simple
   gold:
     doc_id: en_taupo
-    text_snippet: "largest freshwater lake"
+    text_snippet: largest freshwater lake
 
 - id: en_new_zealand_q1
   lang: en
-  query: "[EN] In which ocean is New Zealand located?"
+  query: '[EN] In which ocean is New Zealand located?'
   complexity: simple
   gold:
     doc_id: en_new_zealand
-    text_snippet: "southwestern Pacific Ocean"
+    text_snippet: southwestern Pacific Ocean
 
 - id: en_kea_q1
   lang: en
-  query: "[EN] In what year did the kea receive absolute protection?"
+  query: '[EN] In what year did the kea receive absolute protection?'
   complexity: complex
   gold:
     doc_id: en_kea
-    text_snippet: "Wildlife Act in 1986"
+    text_snippet: Wildlife Act in 1986
 
 - id: en_agathis_australis_q1
   lang: en
-  query: "[EN] Kauri is the largest tree in New Zealand by what measure?"
+  query: '[EN] Kauri is the largest tree in New Zealand by what measure?'
   complexity: complex
   gold:
     doc_id: en_agathis_australis
-    text_snippet: "largest (by volume) but not tallest"
+    text_snippet: largest (by volume)
 
 - id: en_treaty_of_waitangi_q1
   lang: en
-  query: "[EN] On what date was the Treaty of Waitangi first signed?"
+  query: '[EN] On what date was the Treaty of Waitangi first signed?'
   complexity: complex
   gold:
     doc_id: en_treaty_of_waitangi
-    text_snippet: "6 February 1840"
+    text_snippet: 6 February 1840
 
 - id: en_united_states_q1
   lang: en
-  query: "[EN] How many states make up the United States?"
+  query: '[EN] How many states make up the United States?'
   complexity: complex
   gold:
     doc_id: en_united_states
-    text_snippet: "federal republic of 50 states"
+    text_snippet: 50 states
 
 - id: en_north_america_q1
   lang: en
-  query: "[EN] What is the area of North America in square kilometers?"
+  query: '[EN] What is the area of North America in square kilometers?'
   complexity: complex
   gold:
     doc_id: en_north_america
-    text_snippet: "24,709,000 square kilometers"
+    text_snippet: 24,709,000 square kilometers
 
 # ============================================================================
 # MAORI QUERIES (15 total: 11 simple, 4 complex)
@@ -139,120 +139,120 @@
 
 - id: mi_matariki_q1
   lang: mi
-  query: "[MI] He aha a Matariki?"
+  query: '[MI] He aha a Matariki?'
   complexity: simple
   gold:
     doc_id: mi_matariki
-    text_snippet: "kāhui whetū"
+    text_snippet: kāhui whetū
 
 - id: mi_marae_q1
   lang: mi
-  query: "[MI] He aha te marae?"
+  query: '[MI] He aha te marae?'
   complexity: simple
   gold:
     doc_id: mi_marae
-    text_snippet: "wāhi tapu"
+    text_snippet: wāhi tapu
 
 - id: mi_tongariro_q1
   lang: mi
-  query: "[MI] He aha te teitei o Tongariro?"
+  query: '[MI] He aha te teitei o Tongariro?'
   complexity: simple
   gold:
     doc_id: mi_tongariro
-    text_snippet: "1,978 mita"
+    text_snippet: 1,978 mita
 
 - id: mi_moa_q1
   lang: mi
-  query: "[MI] He aha te āhua o ngā parirau o te moa?"
+  query: '[MI] He aha te āhua o ngā parirau o te moa?'
   complexity: simple
   gold:
     doc_id: mi_moa
-    text_snippet: "kāore kau ō rātou parirau"
+    text_snippet: kāore kau ō rātou parirau
 
 - id: mi_kea_q1
   lang: mi
-  query: "[MI] He aha te ingoa pūtaiao o te Kea?"
+  query: '[MI] He aha te ingoa pūtaiao o te Kea?'
   complexity: simple
   gold:
     doc_id: mi_kea
-    text_snippet: "Nestor notabilis"
+    text_snippet: Nestor notabilis
 
 - id: mi_kauri_q1
   lang: mi
-  query: "[MI] He aha te ingoa pūtaiao o te Kauri?"
+  query: '[MI] He aha te ingoa pūtaiao o te Kauri?'
   complexity: simple
   gold:
     doc_id: mi_kauri
-    text_snippet: "Agathis australis"
+    text_snippet: Agathis australis
 
 - id: mi_kaka_q1
   lang: mi
-  query: "[MI] He aha te ingoa pūtaiao o te Kākā?"
+  query: '[MI] He aha te ingoa pūtaiao o te Kākā?'
   complexity: simple
   gold:
     doc_id: mi_kaka
-    text_snippet: "Nestor meridionalis"
+    text_snippet: Nestor meridionalis
 
 - id: mi_kakapo_q1
   lang: mi
-  query: "[MI] Ka rere rānei te Kākāpō?"
+  query: '[MI] Ka rere rānei te Kākāpō?'
   complexity: simple
   gold:
     doc_id: mi_kakapo
-    text_snippet: "kaore e rere"
+    text_snippet: kaore e rere
 
 - id: mi_muturangi_q1
   lang: mi
-  query: "[MI] He aha te ingoa o te wheke a Muturangi?"
+  query: '[MI] He aha te ingoa o te wheke a Muturangi?'
   complexity: simple
   gold:
     doc_id: mi_muturangi
-    text_snippet: "Te Wheke o Muturangi"
+    text_snippet: Te Wheke o Muturangi
 
 - id: mi_taupo_q1
   lang: mi
-  query: "[MI] He aha te ingoa o te moana wai māori?"
+  query: '[MI] He aha te ingoa o te moana wai māori?'
   complexity: simple
   gold:
     doc_id: mi_taupo
-    text_snippet: "Taupō-moana"
+    text_snippet: Taupō-moana
 
 - id: mi_aotearoa_q1
   lang: mi
-  query: "[MI] Kei hea a Aotearoa?"
+  query: '[MI] Kei hea a Aotearoa?'
   complexity: simple
   gold:
     doc_id: mi_aotearoa
-    text_snippet: "Te Moana-nui-a-Kiwa"
+    text_snippet: Te Moana-nui-a-Kiwa
 
 - id: mi_reo_maori_q1
   lang: mi
-  query: "[MI] Nā wai i tae mai ki Aotearoa i te tau 1769?"
+  query: '[MI] Nā wai i tae mai ki Aotearoa i te tau 1769?'
   complexity: complex
   gold:
     doc_id: mi_reo_maori
-    text_snippet: "Kāpene Kuki ki Aotearoa i te 1769"
+    text_snippet: Kāpene Kuki
 
 - id: mi_te_tiriti_o_waitangi_q1
   lang: mi
-  query: "[MI] I hainatia te Tiriti o Waitangi āhea?"
+  query: '[MI] I hainatia te Tiriti o Waitangi āhea?'
   complexity: complex
   gold:
     doc_id: mi_te_tiriti_o_waitangi
-    text_snippet: "6 Hui-tanguru 1840"
+    text_snippet: 6 Hui-tanguru 1840
 
 - id: mi_united_states_q1
   lang: mi
-  query: "[MI] E hia ngā wehenga o te Hononga-o-Amerika?"
+  query: '[MI] E hia ngā wehenga o te Hononga-o-Amerika?'
   complexity: complex
   gold:
     doc_id: mi_united_states
-    text_snippet: "wehenga o \"motukāinga\" e 50"
-
+    text_snippet: 'wehenga o "motukāinga" (mokuʻāina i'
+    
 - id: mi_amerika_ki_te_raki_q1
   lang: mi
-  query: "[MI] E hia ngā kiromita pūrua o Amerika-ki-te-Raki?"
+  query: '[MI] E hia ngā kiromita pūrua o Amerika-ki-te-Raki?'
   complexity: complex
   gold:
     doc_id: mi_amerika_ki_te_raki
-    text_snippet: "24,709,000"
+    text_snippet: 24,709,000
