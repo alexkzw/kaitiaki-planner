@@ -22,3 +22,18 @@ services/retriever-py/data/*
 !services/retriever-py/data/.gitkeep
 traces/*
 !traces/.gitkeep
+
+.env
+*.env
+**/.env
+
+data/corpus.json
+traces/*.jsonl
+
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
