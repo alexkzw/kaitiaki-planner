@@ -96,7 +96,7 @@ class ClaudeClient:
                 "cost_usd": float
             }
         """
-        self._check_budget()
+        self.check_budget()
         
         # Format passages for prompt
         passage_text = "\n\n".join([
@@ -104,23 +104,27 @@ class ClaudeClient:
             for i, p in enumerate(passages)
         ])
         
-        system_prompt = """You are a helpful assistant that answers questions using ONLY the provided passages.
+        # A permissive system prompt that doesn't discourage Māori answers
+        system_prompt = """You are a helpful assistant that answers questions using the provided passages.
 
-CRITICAL RULES:
-1. Base your answer ONLY on information explicitly stated in the passages
-2. If the passages don't contain enough information, say "I don't have enough information to answer that question."
-3. Cite your sources by referencing passage numbers: [Passage 1], [Passage 2], etc.
-4. Do NOT add information from your general knowledge
+You work with content in both English and Te Reo Māori (Māori language). Treat both languages equally - answer questions in Māori using Māori passages, and questions in English using English passages.
+
+RULES:
+1. Base your answer on information in the provided passages
+2. Cite your sources by referencing passage numbers: [Passage 1], [Passage 2], etc.
+3. If the passages contain relevant information, provide your best answer even if some details are unclear
+4. Only refuse if the passages are completely unrelated to the question
 5. Keep answers concise (2-3 sentences)
+6. For Māori queries, answer in Māori if the passages are in Māori
 
-Your goal is to be accurate and grounded, not comprehensive."""
+Your goal is to be helpful and accurate, using the information provided."""
 
         user_prompt = f"""Question: {query}
 
 Available passages:
 {passage_text}
 
-Please answer the question using ONLY the information in these passages. Cite which passage(s) you used."""
+Please answer the question using the information in these passages. Cite which passage(s) you used."""
 
         try:
             response = self.client.messages.create(
@@ -150,7 +154,7 @@ Please answer the question using ONLY the information in these passages. Cite wh
             # Simple citation extraction (map passage references to actual doc_ids)
             citations = self._extract_citations(answer_text, passages)
             
-            # Check for refusal patterns
+            # Check for refusal patterns (less strict now)
             refusal = self._is_refusal(answer_text)
             
             return {
@@ -183,20 +187,24 @@ Please answer the question using ONLY the information in these passages. Cite wh
             if f"[Passage {i+1}]" in answer or f"Passage {i+1}" in answer:
                 citations.append({
                     "doc_id": passage["doc_id"],
-                    "char_start": passage["char_start"],
-                    "char_end": passage["char_end"]
+                    "char_start": passage.get("char_start", 0),
+                    "char_end": passage.get("char_end", len(passage.get("text", "")))
                 })
         return citations
     
     def _is_refusal(self, answer: str) -> bool:
-        """Check if answer is a refusal/insufficient info response."""
+        """
+        Check if answer is a refusal/insufficient info response.
+        
+        FIXED: Less strict - only catches explicit refusals, not cautious statements.
+        """
+        # Only catch very clear refusals
         refusal_phrases = [
-            "don't have enough information",
-            "cannot answer",
-            "insufficient information",
-            "not enough information",
-            "passages don't contain",
-            "not mentioned in the passages"
+            "cannot answer this question",
+            "unable to answer",
+            "passages are completely unrelated",
+            "passages do not contain",
+            "passages don't contain any information"
         ]
         answer_lower = answer.lower()
         return any(phrase in answer_lower for phrase in refusal_phrases)
