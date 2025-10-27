@@ -65,9 +65,9 @@ function planBudget(body: QueryBody) {
   const lang = body.lang || "en";
   const complexity = body.complexity || "simple";
   const use_rerank = body.use_rerank !== false;
-  
+
   let top_k: number;
-  let rerank_k: number = use_rerank ? 3 : 0;
+  let rerank_k: number;  // Will be set to top_k (no dropping docs)
   let rationale: string;
   
   switch (mode) {
@@ -76,7 +76,7 @@ function planBudget(body: QueryBody) {
       top_k = 5;
       rationale = "Fixed budget (top_k=5) for all queries";
       break;
-      
+
     case "language_aware":
       // CONDITION 2: More budget for Māori (lower-resourced language)
       if (lang === "mi") {
@@ -87,7 +87,7 @@ function planBudget(body: QueryBody) {
         rationale = "Standard budget for English";
       }
       break;
-      
+
     case "fairness_aware":
       // CONDITION 3: More budget for Māori OR complex queries
       if (lang === "mi" && complexity === "complex") {
@@ -104,14 +104,17 @@ function planBudget(body: QueryBody) {
         rationale = "Standard budget: English + simple query";
       }
       break;
-      
+
     default:
       top_k = 5;
       rationale = "Unknown mode, using default";
   }
-  
-  return { 
-    top_k, 
+
+  // Set rerank_k to top_k to avoid dropping documents during reranking
+  rerank_k = use_rerank ? top_k : 0;
+
+  return {
+    top_k,
     rerank_k,
     mode,
     lang,

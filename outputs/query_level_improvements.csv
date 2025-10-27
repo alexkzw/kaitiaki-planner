@@ -1,0 +1,31 @@
+task_id,query,lang,complexity,baseline_gc,embeddings_gc,improvement,status
+en_maori_language_q1,[EN] What act gave Māori language official status in New Zealand?,en,simple,1.0,1.0,0.0,unchanged
+en_matariki_q1,[EN] What star cluster is Matariki?,en,simple,1.0,1.0,0.0,unchanged
+en_marae_q1,[EN] What is a marae in Polynesian societies?,en,simple,1.0,1.0,0.0,unchanged
+en_mount_tongariro_q1,[EN] In which volcanic zone is Mount Tongariro located?,en,simple,1.0,1.0,0.0,unchanged
+en_moa_q1,[EN] What type of birds were moa?,en,simple,1.0,1.0,0.0,unchanged
+en_kaka_q1,[EN] What is the scientific name of the New Zealand kākā?,en,simple,1.0,1.0,0.0,unchanged
+en_kakapo_q1,[EN] Can the kākāpō fly?,en,simple,1.0,1.0,0.0,unchanged
+en_muturangi_q1,[EN] What is the name of Muturangis octopus guardian spirit?,en,simple,1.0,1.0,0.0,unchanged
+en_taupo_q1,[EN] What type of lake is Lake Taupō?,en,simple,1.0,1.0,0.0,unchanged
+en_new_zealand_q1,[EN] In which ocean is New Zealand located?,en,simple,1.0,1.0,0.0,unchanged
+en_kea_q1,[EN] In what year did the kea receive absolute protection?,en,complex,1.0,1.0,0.0,unchanged
+en_agathis_australis_q1,[EN] Kauri is the largest tree in New Zealand by what measure?,en,complex,1.0,1.0,0.0,unchanged
+en_treaty_of_waitangi_q1,[EN] On what date was the Treaty of Waitangi first signed?,en,complex,1.0,1.0,0.0,unchanged
+en_united_states_q1,[EN] How many states make up the United States?,en,complex,1.0,1.0,0.0,unchanged
+en_north_america_q1,[EN] What is the area of North America in square kilometers?,en,complex,1.0,1.0,0.0,unchanged
+mi_matariki_q1,[MI] He aha a Matariki?,mi,simple,0.0,1.0,1.0,improved
+mi_marae_q1,[MI] He aha te marae?,mi,simple,0.0,1.0,1.0,improved
+mi_tongariro_q1,[MI] He aha te teitei o Tongariro?,mi,simple,1.0,1.0,0.0,unchanged
+mi_moa_q1,[MI] He aha te āhua o ngā parirau o te moa?,mi,simple,1.0,1.0,0.0,unchanged
+mi_kea_q1,[MI] He aha te ingoa pūtaiao o te Kea?,mi,simple,1.0,1.0,0.0,unchanged
+mi_kauri_q1,[MI] He aha te ingoa pūtaiao o te Kauri?,mi,simple,0.0,1.0,1.0,improved
+mi_kaka_q1,[MI] He aha te ingoa pūtaiao o te Kākā?,mi,simple,1.0,0.0,-1.0,degraded
+mi_kakapo_q1,[MI] Ka rere rānei te Kākāpō?,mi,simple,0.0,1.0,1.0,improved
+mi_muturangi_q1,[MI] He aha te ingoa o te wheke a Muturangi?,mi,simple,1.0,1.0,0.0,unchanged
+mi_taupo_q1,[MI] He aha te ingoa o te moana wai māori?,mi,simple,1.0,0.0,-1.0,degraded
+mi_aotearoa_q1,[MI] Kei hea a Aotearoa?,mi,simple,0.0,1.0,1.0,improved
+mi_reo_maori_q1,[MI] Nā wai i tae mai ki Aotearoa i te tau 1769?,mi,complex,1.0,0.0,-1.0,degraded
+mi_te_tiriti_o_waitangi_q1,[MI] I hainatia te Tiriti o Waitangi āhea?,mi,complex,1.0,1.0,0.0,unchanged
+mi_united_states_q1,[MI] E hia ngā wehenga o te Hononga-o-Amerika?,mi,complex,0.0,1.0,1.0,improved
+mi_amerika_ki_te_raki_q1,[MI] E hia ngā kiromita pūrua o Amerika-ki-te-Raki?,mi,complex,0.0,1.0,1.0,improved

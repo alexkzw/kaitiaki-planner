@@ -1,0 +1,2 @@
+baseline_mi_perf,current_mi_perf,improvement,improvement_pct,uniform_gap,language_aware_gap,fairness_aware_gap,conditions_identical,cost_per_condition,total_cost,failed_queries_count,remaining_gap
+0.5333333333333333,0.8,0.2666666666666667,50.000000000000014,0.19999999999999996,0.19999999999999996,0.19999999999999996,True,0.1446299999999995,0.4338899999999985,3,0.19999999999999996

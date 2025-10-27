@@ -1,0 +1,2 @@
+test,f_statistic,p_value,df_between,df_within,significant,uniform_mean,language_aware_mean,fairness_aware_mean,null_result
+One-Way ANOVA,2.57424710262129e-32,1.0,2,87,False,0.9,0.9,0.9,True

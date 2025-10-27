@@ -1,0 +1,4 @@
+mode,gc_mean,gc_std,gc_min,gc_max,gc_count,cost_sum,refusal_mean,lat_total_ms_mean
+fairness_aware,0.9,0.3051,0.0,1.0,30,0.1446,0.0,3829.0974
+language_aware,0.9,0.3051,0.0,1.0,30,0.1446,0.0,3730.8973
+uniform,0.9,0.3051,0.0,1.0,30,0.1446,0.0,3882.4608

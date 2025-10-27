@@ -96,7 +96,7 @@ class ClaudeClient:
                 "cost_usd": float
             }
         """
-        self.check_budget()
+        self._check_budget()
         
         # Format passages for prompt
         passage_text = "\n\n".join([
