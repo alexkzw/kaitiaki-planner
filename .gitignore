@@ -1,6 +1,7 @@
 __pycache__/
 *.pyc
 .venv/
+data/
 
 # Node/TS (future orchestrator)
 node_modules/
