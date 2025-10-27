@@ -2,7 +2,6 @@
 
 This corpus contains short, excerpted paragraphs from Wikipedia articles (English and Māori).
 Text is licensed under **Creative Commons Attribution–ShareAlike 4.0 International (CC BY-SA 4.0)**.
-Attribute “Wikipedia contributors”, link to each source page, and indicate that text was excerpted/trimmed.
 
 - Reusing Wikipedia content: https://en.wikipedia.org/wiki/Wikipedia:Reusing_Wikipedia_content
 - CC BY-SA 4.0 deed: https://creativecommons.org/licenses/by-sa/4.0/
