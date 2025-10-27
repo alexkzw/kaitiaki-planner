@@ -3,7 +3,7 @@ Test Embedding Retriever
 ========================
 
 Verify that the embedding-based retriever is working correctly
-before running the full Day 2 evaluation.
+before running the full evaluation.
 
 This script:
 1. Checks if retriever is running
@@ -258,10 +258,6 @@ if mi_passed >= 3:
     print(f"   Estimated new GC:  {estimated_mi_perf:.3f} ({estimated_new}/15)")
     print(f"   Estimated gap:     {estimated_gap:.3f} (down from 0.467)")
     print(f"   Gap reduction:     {(0.467-estimated_gap)/0.467*100:.0f}%")
-    
-    print(f"\nWith budget allocation (language-aware/fairness-aware):")
-    print(f"   Additional improvement likely!")
-    print(f"   Gap could reduce to ~0.20 or less")
 
 elif mi_passed > 0:
     print(f"\nMODERATE: Some improvement, but not as much as hoped")
@@ -284,13 +280,7 @@ print("="*70)
 if mi_passed >= 3:
     print("\nReady to proceed!")
     print("\nNext steps:")
-    print("  1. Stop BM25 retriever (if running)")
-    print("  2. Keep embedding retriever running")
-    print("  3. Backup old results:")
-    print("     mv ../outputs/full_evaluation_results.csv ../outputs/results_bm25.csv")
-    print("  4. Re-run Day 2:")
-    print("     python run_day2.py")
-    print("  5. Should see improved results!")
+    print("  run 02_full_evaluation.py")
 
 elif mi_passed > 0:
     print("\n Proceed with caution")
@@ -301,6 +291,6 @@ elif mi_passed > 0:
 else:
     print("\nDon't proceed yet")
     print("   No improvement detected")
-    print("   Debug before re-running Day 2")
+    print("   Debug before re-running 02_full_evaluation.py")
 
 print("\n" + "="*70)
