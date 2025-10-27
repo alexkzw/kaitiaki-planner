@@ -95,43 +95,43 @@
 
 - id: en_kea_q1
   lang: en
-  query: '[EN] In what year did the kea receive absolute protection?'
+  query: "[EN] What conflict with pastoral farming prompted systematic killing of this parrot, and what later legal protection (name and year) reversed its status?"
   complexity: complex
   gold:
     doc_id: en_kea
-    text_snippet: Wildlife Act in 1986
+    text_snippet: "It was once killed for bounty due to concern by sheep farmers that it attacked livestock, especially sheep. The kea is now uncommon, and received absolute protection under the Wildlife Act in 1986."
 
 - id: en_agathis_australis_q1
   lang: en
-  query: '[EN] Kauri is the largest tree in New Zealand by what measure?'
+  query: "[EN] Why might a forest be called 'kauri forest' even when kauri isn't the most abundant tree, and what ecosystem-engineering effect of kauri explains this naming?"
   complexity: complex
   gold:
     doc_id: en_agathis_australis
-    text_snippet: largest (by volume)
+    text_snippet: "Because it is such a conspicuous species, forest containing kauri is generally known as kauri forest, although kauri need not be the most abundant tree. Kauri even act as a foundation species that modify the soil under their canopy to create unique plant communities."
 
 - id: en_treaty_of_waitangi_q1
   lang: en
-  query: '[EN] On what date was the Treaty of Waitangi first signed?'
+  query: "[EN] Given that the treatys legal standing is contested and not directly enacted in domestic statute, what uncertainty does this create around sovereignty, and when and by whom was the agreement first signed?"
   complexity: complex
   gold:
     doc_id: en_treaty_of_waitangi
-    text_snippet: 6 February 1840
+    text_snippet: "Although the Treaty of Waitangi is not incorporated as a binding international treaty within New Zealand's domestic law, its status at international law is debated. It was first signed on 6 February 1840 by Captain William Hobson as consul for the British Crown and by Māori chiefs (rangatira) from the North Island of New Zealand. The treaty's status has clouded the question of whether Māori had ceded sovereignty to the Crown in 1840, and if so, whether such sovereignty remains intact"
 
 - id: en_united_states_q1
   lang: en
-  query: '[EN] How many states make up the United States?'
+  query: "[EN] In terms of global standing, how does this country rank both by land area and by population, and roughly how many people live there?"
   complexity: complex
   gold:
     doc_id: en_united_states
-    text_snippet: 50 states
+    text_snippet: "It is a megadiverse country, with the world's third-largest land area and third-largest population, exceeding 340 million."
 
 - id: en_north_america_q1
   lang: en
-  query: '[EN] What is the area of North America in square kilometers?'
+  query: "[EN] Summarize this continents scale and global share, then state its comparative rank by size and by population."
   complexity: complex
   gold:
     doc_id: en_north_america
-    text_snippet: 24,709,000 square kilometers
+    text_snippet: "North America covers an area of around 24,709,000 square kilometers (9,540,000 square miles), representing approximately 16.5% of Earth's land area and 4.8% of its total surface area. It is the third-largest continent by size after Asia and Africa, and the fourth-largest continent by population after Asia, Africa, and Europe."
 
 # ============================================================================
 # MAORI QUERIES (15 total: 11 simple, 4 complex)
@@ -227,32 +227,32 @@
 
 - id: mi_reo_maori_q1
   lang: mi
-  query: '[MI] Nā wai i tae mai ki Aotearoa i te tau 1769?'
+  query: "[MI] Ahakoa kua motu ngā hononga reo mō ngā rautau, pēhea i taea ai te whakawhiti kōrero tuatahi i waenga i a Kuki me ngā Māori, ā, nā wai te mahi matua i tutuki ai tēnā?"
   complexity: complex
   gold:
     doc_id: mi_reo_maori
-    text_snippet: Kāpene Kuki
+    text_snippet: "I te taenga mai o Kāpene Kuki ki Aotearoa i te 1769, he rangatira nō Tahiti, ko Tupaia te ingoa, i runga i tana kaipuke. Ko te mahi a Tupaea, he kōrero tahi ki ngā Māori, i mārama rātou ki tana reo, kore rawa he raruraru; arā he kaiwhakamāori ia kia mōhio ai a Kuki ki ngā whakaaro o te Māori o taua wā."
 
 - id: mi_te_tiriti_o_waitangi_q1
   lang: mi
-  query: '[MI] I hainatia te Tiriti o Waitangi āhea?'
+  query: "[MI] E ai ki te kupu tomua, he aha te hiahia a te Kuini mō te whakarite kawanatanga kia tiakina ai ngā tāngata, ā, ko wai i tohua hei kawe i taua kaupapa, ā, mō hea?"
   complexity: complex
   gold:
     doc_id: mi_te_tiriti_o_waitangi
-    text_snippet: 6 Hui-tanguru 1840
+    text_snippet: "Na ko te Kuini e hiahia ana kia whakaritea te Kawanatanga kia kaua ai nga kino e puta mai ki te tangata Maori ki te Pakeha e noho ture kore ana. Na, kua pai te Kuini kia tukua a hau a Wiremu Hopihona he Kapitana i te Roiara Nawi hei Kawana mo nga wahi katoa o Niu Tirani e tukua aianei, amua atu ki te Kuini e mea atu ana ia ki nga Rangatira o te whakaminenga o nga hapu o Nu Tirani me era Rangatira atu enei ture ka korerotia nei."
 
 - id: mi_united_states_q1
   lang: mi
-  query: '[MI] E hia ngā wehenga o te Hononga-o-Amerika?'
+  query: "[MI] Ki te tirohanga o te ao whānui, kei te aha te tūranga o te Hononga-o-Amerika mō te taupori me te rahinga whenua, ā, tata ki te hia te tokomaha o te iwi?"
   complexity: complex
   gold:
     doc_id: mi_united_states
-    text_snippet: 'wehenga o "motukāinga" (mokuʻāina i'
-    
+    text_snippet: "Koia te whenua noho nui rawa tuatoru me ōna tāngata neke atu i te 320 miriona, ā, ko te whenua nui rawa tuawhā me tōna rahinga whenua e 9.842 miriona km2 (3.8 miriona māero2)."
+
 - id: mi_amerika_ki_te_raki_q1
   lang: mi
-  query: '[MI] E hia ngā kiromita pūrua o Amerika-ki-te-Raki?'
+  query: "[MI] Whakamārama mai te tauine me te wehenga o tēnei paparahi: he aha tōna tūranga ki te ao mō te taupori me te rahinga whenua, ā, he pēhea tana ōwehenga ki te matawhenua me te mata katoa o te ao?"
   complexity: complex
   gold:
     doc_id: mi_amerika_ki_te_raki
-    text_snippet: 24,709,000
+    text_snippet: "Ko Amerika-ki-te-Raki te paparahi tuawhā ā-taupori (565 miriona tāngata i 2013) tae rā anō ki ngā moutere pātata (pērā i ngā Moutere Karipiana). Koia te paparahi tuatoru ā-rahinga whenua me ōna km2 e 24,709,000, arā āhua 16.5% o te matawhenua o te ao, 4.8% rānei o te mata o te ao."
