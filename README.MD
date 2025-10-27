@@ -180,7 +180,7 @@ Switching from BM25 to semantic embeddings:
 
 ### Null Result: Budget Allocation
 
-Allocating 60% more budget (5→8 documents):
+Allocating 60% more budget (5 to 8 documents):
 - **0% improvement** across all conditions
 - **p = 1.0** (perfect equivalence)
 - **Null finding**: Budget allocation provides no benefit when retrieval quality is high
@@ -203,8 +203,6 @@ See `outputs/capstone_report.pdf` for full ethical analysis.
 
 - **[Capstone Report](outputs/capstone_report.pdf)** - 4-page technical report with ethical analysis
 - **[Data Attribution](data/ATTRIBUTION.md)** - CC-BY-SA license compliance
-- **[Statistical Analysis](outputs/statistical_tests.txt)** - Full ANOVA and t-test results
-
 ---
 
 ## Technologies
@@ -216,31 +214,6 @@ See `outputs/capstone_report.pdf` for full ethical analysis.
 | **LLM** | Claude 3.5 Sonnet | Answer generation (~$0.0048/query) |
 | **Embeddings** | sentence-transformers | Multilingual semantic vectors |
 | **Analysis** | SciPy + Matplotlib | Statistics & visualization |
-
----
-
-## Contributing
-
-This is an academic capstone project. Contributions welcome for:
-- Expanding corpus to other low-resource languages
-- Improving hybrid retrieval approaches
-- Native speaker evaluation
-
----
-
-## Citation
-
-If you use this work, please cite:
-
-```bibtex
-@misc{kaitiaki2025,
-  author = {Alex},
-  title = {Kaitiaki-Planner: Budget-Aware RAG for Multilingual Fairness},
-  year = {2025},
-  publisher = {GitHub},
-  url = {https://github.com/yourusername/kaitiaki-planner}
-}
-```
 
 ---
 
