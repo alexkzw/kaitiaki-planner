@@ -27,7 +27,7 @@ corpus_path = Path("../data/corpus.json")
 
 if not corpus_path.exists():
     print(f"Corpus not found at {corpus_path}")
-    print("   Make sure you're in the notebook/ directory")
+    print("Make sure you're in the notebook/ directory")
     exit(1)
 
 with open(corpus_path, 'r', encoding='utf-8') as f:
@@ -164,6 +164,5 @@ print(f"  Saved to: {output_path}")
 print(f"\nNext steps:")
 print(f"  1. Start embedding retriever: python retriever_embeddings.py")
 print(f"  2. Test it: python test_embedding_retriever.py")
-print(f"  3. Re-run Day 2: python run_day2.py")
 
 print("\n" + "="*70)
