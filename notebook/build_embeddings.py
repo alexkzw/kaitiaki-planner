@@ -6,8 +6,6 @@ One-time script to generate and save embeddings for the entire corpus.
 Uses multilingual sentence-transformers model that works with both English and Māori.
 
 Run this ONCE before starting the embedding-based retriever.
-
-Expected time: 2-5 minutes
 """
 
 import json
