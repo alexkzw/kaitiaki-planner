@@ -47,12 +47,12 @@ cd kaitiaki-planner
 cd notebook
 pip install -r requirements.txt
 
-# Build embeddings
+# Build embeddings (precomputed vectors)
 python build_embeddings.py
 
 # Install Node.js dependencies
 cd ../services/orchestrator-ts
-npm install
+npm run dev
 
 # Set up environment
 echo "ANTHROPIC_API_KEY=your_key_here" > ../../notebook/.env
