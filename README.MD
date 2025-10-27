@@ -22,7 +22,7 @@
 | **Fairness Gap (EN-MI)** | 46.7% | 20.0% | **-57.1%** |
 | **Budget Allocation Effect** | — | **No effect** (p = 1.0) | Null result |
 
-**Critical Insight**: Improving retrieval architecture (BM25 → semantic embeddings) yielded **50% relative improvement** for Te Reo Māori, while sophisticated budget allocation provided **zero benefit** when retrieval quality was already high.
+**Critical Insight**: Improving retrieval architecture (changing from BM25 to semantic embeddings) yielded **50% relative improvement** for Te Reo Māori, while sophisticated budget allocation provided **zero benefit** when retrieval quality was already high.
 
 **Conclusion**: **Retrieval quality > Budget allocation**
 
@@ -40,14 +40,14 @@
 
 ```bash
 # Clone repository
-git clone https://github.com/yourusername/kaitiaki-planner.git
+git clone https://github.com/alexkzw/kaitiaki-planner.git
 cd kaitiaki-planner
 
 # Install Python dependencies
 cd notebook
 pip install -r requirements.txt
 
-# Build embeddings (one-time, ~3 minutes)
+# Build embeddings
 python build_embeddings.py
 
 # Install Node.js dependencies
@@ -74,7 +74,7 @@ npm run dev
 # Terminal 3: Run evaluation
 cd notebook
 python 02_full_evaluation.py
-# Cost: ~$0.40, Time: ~60 minutes
+# Cost: ~$0.40
 ```
 
 ---
@@ -119,8 +119,8 @@ kaitiaki-planner/
 The system implements a three-stage RAG pipeline:
 
 ```
-User Query → Orchestrator (Budget Planning) → Retriever (Semantic Search)
-    → Claude 3.5 Sonnet (Answer Generation) → Grounded Answer
+User Query -> Orchestrator (Budget Planning) -> Retriever (Semantic Search)
+    -> Claude 3.5 Sonnet (Answer Generation) -> Grounded Answer
 ```
 
 ### Three Budget Allocation Strategies
@@ -174,16 +174,16 @@ GC = 0  otherwise
 ### Impact of Retrieval Quality
 
 Switching from BM25 to semantic embeddings:
-- ✅ **+71% relative improvement** for Te Reo Māori (8/15 → 12/15 queries)
-- ✅ **-57.1% reduction** in fairness gap (46.7% → 20.0%)
-- ✅ **Statistically significant** (Chi-square p < 0.05)
+- **+71% relative improvement** for Te Reo Māori (8/15 → 12/15 queries)
+- **-57.1% reduction** in fairness gap (46.7% → 20.0%)
+- **Statistically significant** (Chi-square p < 0.05)
 
 ### Null Result: Budget Allocation
 
 Allocating 60% more budget (5→8 documents):
-- ❌ **0% improvement** across all conditions
-- ❌ **p = 1.0** (perfect equivalence)
-- ❌ **Null finding**: Budget allocation provides no benefit when retrieval quality is high
+- **0% improvement** across all conditions
+- **p = 1.0** (perfect equivalence)
+- **Null finding**: Budget allocation provides no benefit when retrieval quality is high
 
 ---
 
