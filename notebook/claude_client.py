@@ -196,7 +196,7 @@ Please answer the question using the information in these passages. Cite which p
         """
         Check if answer is a refusal/insufficient info response.
         
-        FIXED: Less strict - only catches explicit refusals, not cautious statements.
+        Make it less strict by onlying catching explicit refusals, not cautious statements.
         """
         # Only catch very clear refusals
         refusal_phrases = [
