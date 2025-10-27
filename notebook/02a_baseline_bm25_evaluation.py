@@ -2,7 +2,7 @@
 Baseline BM25 Evaluation
 ========================
 
-This script runs the evaluation using the OLD BM25 retriever to establish
+This script runs the evaluation using the BM25 retriever to establish
 baseline performance. Results are saved separately to preserve comparison data.
 
 IMPORTANT:
@@ -75,20 +75,20 @@ try:
     r = requests.get("http://localhost:8001/", timeout=5)
     if r.status_code == 200:
         info = r.json()
-        print(f"  ✓ Connected to: {info.get('service', 'unknown')}")
-        print(f"  ✓ Version: {info.get('version', 'unknown')}")
+        print(f"  Connected to: {info.get('service', 'unknown')}")
+        print(f"  Version: {info.get('version', 'unknown')}")
 
         # Verify it's BM25, not embeddings
         if 'embedding' in str(info).lower():
-            print("\n❌ ERROR: Embedding retriever is running, not BM25!")
+            print("\n ERROR: Embedding retriever is running, not BM25!")
             print("   Stop the embedding retriever and start BM25 retriever:")
             print("   cd services/retriever-py && python -m uvicorn app:app --port 8001")
             exit(1)
     else:
-        print(f"  ✗ Unexpected status code: {r.status_code}")
+        print(f"  Unexpected status code: {r.status_code}")
         exit(1)
 except Exception as e:
-    print(f"  ✗ Connection failed: {e}")
+    print(f"  Connection failed: {e}")
     print("\nStart BM25 retriever with:")
     print("  cd services/retriever-py && python -m uvicorn app:app --port 8001")
     exit(1)
@@ -178,7 +178,7 @@ for mode_idx, mode_name in enumerate(modes):
                 gold_citation
             )
 
-            print(f"  GC Score: {gc} ({'✓ PASS' if gc == 1 else '✗ FAIL'})")
+            print(f"  GC Score: {gc} ({'PASS' if gc == 1 else 'FAIL'})")
 
             # Record result
             results.append({
@@ -226,7 +226,7 @@ print(f"\nCompleted: {total_tasks}/{len(eval_tasks) * len(modes)} tasks")
 print(f"Total cost: ${total_cost:.4f}")
 
 if errors:
-    print(f"\n⚠️  {len(errors)} errors occurred:")
+    print(f"\n{len(errors)} errors occurred:")
     for err in errors[:5]:
         print(f"  - {err}")
 
@@ -237,7 +237,7 @@ output_dir.mkdir(exist_ok=True)
 baseline_path = output_dir / "baseline_bm25_results.csv"
 df_all.to_csv(baseline_path, index=False)
 
-print(f"\n✓ Baseline BM25 results saved to: {baseline_path}")
+print(f"\nBaseline BM25 results saved to: {baseline_path}")
 
 # Print summary statistics
 print(f"\n{'='*70}")
@@ -267,5 +267,5 @@ print(f"Total cost: ${total_cost:.4f}")
 print(f"\nNext steps:")
 print(f"  1. Review results in {baseline_path}")
 print(f"  2. Stop BM25 retriever")
-print(f"  3. Start embedding retriever for improved results")
+print(f"  3. Start embedding retriever for potential improved results")
 print(f"  4. Compare baseline vs embeddings performance")
