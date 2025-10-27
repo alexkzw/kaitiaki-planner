@@ -34,7 +34,7 @@ doc_texts = None
 corpus = None  # Full corpus with metadata
 
 # ============================================================================
-# Lifespan Context Manager (replaces deprecated @app.on_event)
+# Lifespan Context Manager
 # ============================================================================
 
 @asynccontextmanager
@@ -86,9 +86,8 @@ async def lifespan(app: FastAPI):
     print(f"Endpoint: POST /search")
     print("="*70 + "\n")
 
-    yield  # Server runs here
+    yield  
 
-    # Cleanup (if needed)
     print("\nShutting down embedding retriever...")
 
 app = FastAPI(title="Embedding Retriever", version="1.0.0", lifespan=lifespan)
@@ -214,9 +213,8 @@ def keyword_boost(doc_id: str, query: str, base_score: float) -> float:
 
     Example:
         Query: "Kei hea a Aotearoa?" (Where is Aotearoa?)
-        - mi_aotearoa (score=0.525) → boosted to 0.683 (matches "aotearoa")
-        - mi_kauri (score=0.613) → stays 0.613 (no match)
-        Result: mi_aotearoa now ranks first!
+        - mi_aotearoa (score=0.525) -> boosted to 0.683 (matches "aotearoa")
+        - mi_kauri (score=0.613) -> stays 0.613 (no match)
     """
     import unicodedata
     import re
@@ -224,7 +222,7 @@ def keyword_boost(doc_id: str, query: str, base_score: float) -> float:
     # Normalize text (important for Māori diacritics)
     query_normalized = unicodedata.normalize('NFC', query.lower())
 
-    # Extract keywords from doc_id (e.g., "mi_aotearoa" → ["aotearoa"])
+    # Extract keywords from doc_id (e.g., "mi_aotearoa" -> ["aotearoa"])
     # Split by underscore and remove language prefix
     parts = doc_id.lower().split('_')
     doc_keywords = parts[1:] if len(parts) > 1 else parts

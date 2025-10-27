@@ -41,12 +41,11 @@ print("BASELINE VS EMBEDDINGS COMPARISON")
 print("="*70)
 
 baseline_path = Path("../outputs/baseline_bm25_results.csv")
-embeddings_path = Path("../outputs/embeddings_results.csv")
 
-# Fallback to full_evaluation_results.csv if embeddings_results doesn't exist
-if not embeddings_path.exists():
-    embeddings_path = Path("../outputs/full_evaluation_results.csv")
-    print(f"\nUsing full_evaluation_results.csv as embeddings results")
+# Always use full_evaluation_results.csv as the authoritative embeddings results
+# (embeddings_results.csv is deprecated - may contain outdated data)
+embeddings_path = Path("../outputs/full_evaluation_results.csv")
+print(f"\nUsing full_evaluation_results.csv as embeddings results")
 
 if not baseline_path.exists():
     print(f"\n ERROR: Baseline results not found at {baseline_path}")

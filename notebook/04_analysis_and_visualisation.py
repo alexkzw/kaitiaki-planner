@@ -299,14 +299,18 @@ if baseline_path.exists():
     baseline_en_perf = df_baseline[(df_baseline['mode']=='uniform') & (df_baseline['lang']=='en')]['gc'].mean()
 else:
     # Fallback to estimated values if baseline not run
-    baseline_mi_perf = 0.467  # 7/15 from original BM25 results
+    baseline_mi_perf = 0.60  # 9/15 from BM25 baseline
     baseline_en_perf = 1.0
+
+# Calculate current embeddings performance
+current_mi_perf = df[(df['mode']=='uniform') & (df['lang']=='mi')]['gc'].mean()
+current_en_perf = df[(df['mode']=='uniform') & (df['lang']=='en')]['gc'].mean()
 
 fig, ax = plt.subplots(figsize=(10, 6))
 
 conditions_chart = ['BM25\n(Baseline)', 'Embeddings +\nKeyword Boost']
-en_perf = [baseline_en_perf, 1.0]  # English performance
-mi_perf = [baseline_mi_perf, 0.8]  # Māori improved to 12/15
+en_perf = [baseline_en_perf, current_en_perf]  # English performance
+mi_perf = [baseline_mi_perf, current_mi_perf]  # Māori performance from actual data
 
 x = np.arange(len(conditions_chart))
 width = 0.35
@@ -476,16 +480,17 @@ if baseline_path.exists():
     baseline_mi_count = int(df_baseline[(df_baseline['mode']=='uniform') & (df_baseline['lang']=='mi')]['gc'].sum())
     baseline_gap = (df_baseline[(df_baseline['mode']=='uniform') & (df_baseline['lang']=='en')]['gc'].mean() - baseline_mi_perf)
 else:
-    baseline_mi_perf = 0.467  # Fallback estimate
-    baseline_mi_count = 7
-    baseline_gap = 0.533
+    baseline_mi_perf = 0.60  # 9/15 from BM25 baseline
+    baseline_mi_count = 9
+    baseline_gap = 0.40
 
 current_mi_perf = df[df['lang']=='mi']['gc'].mean()
+current_mi_count = int(df[(df['mode']=='uniform') & (df['lang']=='mi')]['gc'].sum())
 improvement = current_mi_perf - baseline_mi_perf
 improvement_pct = (improvement / baseline_mi_perf) * 100
 
 print(f"   Baseline Māori performance (BM25): {baseline_mi_perf:.3f} ({baseline_mi_count}/15)")
-print(f"   Current Māori performance: {current_mi_perf:.3f} (12/15)")
+print(f"   Current Māori performance: {current_mi_perf:.3f} ({current_mi_count}/15)")
 print(f"   Absolute improvement: +{improvement:.3f}")
 print(f"   Relative improvement: +{improvement_pct:.1f}%")
 print(f"   Gap reduction: {baseline_gap:.3f} → {uniform_gap_value:.3f} (-{(baseline_gap-uniform_gap_value):.3f})")
@@ -580,15 +585,27 @@ print("\n  Visualizations:")
 print("    • figures/gc_by_condition_language.png")
 print("    • figures/fairness_gaps_chart.png")
 print("    • figures/gc_by_complexity.png")
-print("    • figures/before_after_comparison.png ⭐ (NEW - Shows 71% improvement)")
-print("    • figures/query_success_matrix.png ⭐ (NEW - Query-level breakdown)")
-print("    • figures/null_result_identical_conditions.png ⭐ (NEW - Null finding)")
+print("    • figures/before_after_comparison.png ⭐ (BM25 vs Embeddings improvement)")
+print("    • figures/query_success_matrix.png ⭐ (Query-level breakdown)")
+print("    • figures/null_result_identical_conditions.png ⭐ (Null finding)")
 
 print("\n" + "="*70)
 print("KEY TAKEAWAYS")
 print("="*70)
-print("\n1. Māori performance improved 71% (7/15 → 12/15)")
-print("2. Fairness gap reduced 62% (0.533 → 0.200)")
+
+# Calculate actual values from data
+baseline_mi_actual = baseline_mi_count if baseline_path.exists() else 9
+current_mi_actual = current_mi_count
+baseline_gap_actual = baseline_gap if baseline_path.exists() else 0.40
+current_gap_actual = uniform_gap_value
+
+# Calculate improvements dynamically
+mi_count_improvement = current_mi_actual - baseline_mi_actual
+mi_perf_improvement_pct = improvement_pct
+gap_reduction_pct = ((baseline_gap_actual - current_gap_actual) / baseline_gap_actual * 100) if baseline_gap_actual > 0 else 0
+
+print(f"\n1. Māori performance improved {mi_perf_improvement_pct:.1f}% ({baseline_mi_actual}/15 → {current_mi_actual}/15)")
+print(f"2. Fairness gap reduced {gap_reduction_pct:.1f}% ({baseline_gap_actual:.3f} → {current_gap_actual:.3f})")
 print("3. Budget allocation had NO EFFECT (null result)")
 print("4. Retrieval quality is the key factor, not budget")
 print("5. All strategies equally cost-effective")

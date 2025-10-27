@@ -3,9 +3,8 @@ Full Evaluation
 ======================
 
 IMPORTANT: This script performs expensive API calls (~$0.40 USD).
-Run ONCE only. Results are saved to CSV for analysis in Days 3-5.
+Run ONCE only. Results are saved to CSV for analysis.
 
-Expected time: 60-90 minutes
 Expected cost: ~$0.40 USD
 """
 
@@ -357,19 +356,17 @@ print(cost)
 # ============================================================================
 
 print(f"\nFull evaluation complete")
-print(f"Dataset ready for analysis")
 
 print(f"\nNext steps:")
-print(f"   1. Run: python run_day3.py")
-print(f"   2. This will analyze full_evaluation_results.csv")
-print(f"   3. No additional cost!")
+print(f"   1. Run 03_baseline_comparison.py")
+print(f"   2. This will compare BM25 baseline results with embeddings-based result")
 
 print(f"\nBudget status:")
 print(f"   Total spend: ${claude.total_cost_usd:.4f}")
 print(f"   Budget remaining: ${claude.max_spend_usd - claude.total_cost_usd:.2f}")
 
 print(f"\n IMPORTANT: Do NOT re-run this script!")
-print(f"   Results are saved. Use run_day3.py for analysis.")
+print(f"   Results are saved. Use 04_analysis_and_visualisation.py for analysis.")
 
 print("\n" + "="*70)
 claude.print_stats()

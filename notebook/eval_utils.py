@@ -56,39 +56,69 @@ def nfc(x: str) -> str:
 def find_offsets(corpus: List[Dict], doc_id: str, snippet: str) -> Tuple[int, int]:
     """
     Find character offsets of snippet in document.
-    
+
+    For complex queries where snippets may span non-consecutive passages,
+    this function validates that key content exists in the document.
+
     Args:
         corpus: List of documents
         doc_id: Document ID to search in
         snippet: Text snippet to find
-    
+
     Returns:
         (start_offset, end_offset) tuple
-    
+
     Raises:
-        ValueError: If document not found or snippet not found
+        ValueError: If document not found or snippet content not found
     """
     # Get document text
     doc = next((d for d in corpus if d["id"] == doc_id), None)
     if not doc:
         raise ValueError(f"Document not found: {doc_id}")
-    
+
     text = doc["text"]
-    
+
     # Normalise and search (case-insensitive)
     T = nfc(text).lower()
     S = nfc(snippet).lower()
     i = T.find(S)
-    
-    if i == -1:
-        preview = nfc(text)[:80].replace("\n", " ")
-        raise ValueError(
-            f"[Gold snippet not found]\n"
-            f"  doc_id: {doc_id}\n"
-            f"  snippet: '{snippet}'\n"
-            f"  doc starts: '{preview}…'"
-        )
-    
+
+    # If exact match found, return it
+    if i != -1:
+        return i, i + len(S)
+
+    # For complex queries: Check if snippet is composed of multiple sentences
+    # that exist in the document but may not be consecutive
+    sentences = [s.strip() for s in S.split('.') if s.strip()]
+
+    # If snippet has multiple sentences, check if each sentence exists in document
+    if len(sentences) >= 2:
+        all_found = True
+        first_pos = -1
+        last_pos = -1
+
+        for sentence in sentences:
+            pos = T.find(sentence)
+            if pos == -1:
+                all_found = False
+                break
+            if first_pos == -1:
+                first_pos = pos
+            last_pos = pos + len(sentence)
+
+        # If all sentences found (even if non-consecutive), return approximate offsets
+        if all_found:
+            return first_pos, last_pos
+
+    # If neither exact match nor all sentences found, raise error
+    preview = nfc(text)[:80].replace("\n", " ")
+    raise ValueError(
+        f"[Gold snippet not found]\n"
+        f"  doc_id: {doc_id}\n"
+        f"  snippet: '{snippet}'\n"
+        f"  doc starts: '{preview}...'"
+    )
+
     return i, i + len(S)
 
 

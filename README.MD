@@ -52,7 +52,7 @@ python build_embeddings.py
 
 # Install Node.js dependencies
 cd ../services/orchestrator-ts
-npm run dev
+npm install
 
 # Set up environment
 echo "ANTHROPIC_API_KEY=your_key_here" > ../../notebook/.env
@@ -61,15 +61,34 @@ echo "ANTHROPIC_API_KEY=your_key_here" > ../../notebook/.env
 ### Running the System
 
 ```bash
-# Terminal 1: Start embedding retriever
-cd notebook
-python retriever_embeddings.py
-# Runs on http://localhost:8001
 
-# Terminal 2: Start orchestrator
+# Phase 2A: Running BM25 Baseline Evaluation
+
+# Terminal 1: Start orchestrator
 cd services/orchestrator-ts
 npm run dev
 # Runs on http://localhost:8000
+
+# Terminal 2: Start baseline BM25 Retriever 
+cd services/retriever-py
+python -m uvicorn app:app --port 8001
+
+# Terminal 3: Run BM25 evaluation
+# Evaluates 30 queries using BM25 retriever
+# Saves results to outputs/baseline_bm25_results.csv
+cd notebook
+python 02a_baseline_bm25_evaluation.py
+
+# Phase 2B: Running BM25 Baseline Evaluation
+# STOP BM25 Retriever (Terminal 2 - retriver-py)
+# Keep Terminal 1 orchestrator running 
+
+# Terminal 2: Start Embeddings Retriever 
+# Loads data/corpus_embeddings.pkl
+# Runs semantic search using multilingual enmbeddings
+cd notebook
+python retriever_embeddings.py
+
 
 # Terminal 3: Run evaluation
 cd notebook
