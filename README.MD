@@ -198,11 +198,13 @@ kaitiaki-planner/
 
 ```mermaid
 flowchart LR
-    A[User Query] --> B[Orchestrator (Budget Planning)]
-    B --> C[Retriever (Semantic Search)]
-    C --> D[Claude 3.5 Sonnet (Answer Generation)]
-    D --> E[Grounded Answer]
+    A["User Query"] --> B["Orchestrator - Budget Planning"]
+    B --> C["Retriever - Semantic Search"]
+    C --> D["Claude 3.5 Sonnet - Answer Generation"]
+    D --> E["Grounded Answer"]
 ```
+
+</details>
 
 ### Three Budget Allocation Strategies
 
