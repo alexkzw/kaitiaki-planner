@@ -1,0 +1,5 @@
+language,complexity,baseline,embeddings,change
+en,simple,1.0,1.0,0.0
+en,complex,1.0,1.0,0.0
+mi,simple,0.5454545454545454,0.8181818181818182,0.2727272727272728
+mi,complex,0.75,0.25,-0.5

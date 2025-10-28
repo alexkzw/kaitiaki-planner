@@ -1,4 +1,4 @@
-comparison,difference,threshold,equivalent
-uniform vs language_aware,0.0,0.05,True
-uniform vs fairness_aware,0.0,0.05,True
-language_aware vs fairness_aware,0.0,0.05,True
+comparison,mean_1,mean_2,difference,threshold,equivalent
+uniform vs language_aware,0.8333333333333334,0.8333333333333334,0.0,0.05,True
+uniform vs fairness_aware,0.8333333333333334,0.8333333333333334,0.0,0.05,True
+language_aware vs fairness_aware,0.8333333333333334,0.8333333333333334,0.0,0.05,True

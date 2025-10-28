@@ -1,0 +1,10 @@
+id,lang,complexity,mode,top_k,gc,cost,refusal
+en_maori_language_q1,en,simple,uniform,5,1.0,0.0032040000000000003,False
+en_matariki_q1,en,simple,uniform,5,1.0,0.0045179999999999994,False
+en_marae_q1,en,simple,uniform,5,1.0,0.005489999999999999,False
+en_maori_language_q1,en,simple,language_aware,5,1.0,0.0032040000000000003,False
+en_matariki_q1,en,simple,language_aware,5,1.0,0.0045179999999999994,False
+en_marae_q1,en,simple,language_aware,5,1.0,0.005489999999999999,False
+en_maori_language_q1,en,simple,fairness_aware,5,1.0,0.0032040000000000003,False
+en_matariki_q1,en,simple,fairness_aware,5,1.0,0.0045179999999999994,False
+en_marae_q1,en,simple,fairness_aware,5,1.0,0.005489999999999999,False

@@ -1,4 +1,4 @@
 mode,u_statistic,p_value,significant
-uniform,150.0,0.017491599749621257,True
-language_aware,150.0,0.017491599749621257,True
 fairness_aware,150.0,0.017491599749621257,True
+language_aware,150.0,0.017491599749621257,True
+uniform,150.0,0.017491599749621257,True

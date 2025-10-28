@@ -1,31 +1,31 @@
-task_id,query,lang,complexity,baseline_gc,embeddings_gc,improvement,status
-en_maori_language_q1,[EN] What act gave Māori language official status in New Zealand?,en,simple,1.0,1.0,0.0,unchanged
-en_matariki_q1,[EN] What star cluster is Matariki?,en,simple,1.0,1.0,0.0,unchanged
-en_marae_q1,[EN] What is a marae in Polynesian societies?,en,simple,1.0,1.0,0.0,unchanged
-en_mount_tongariro_q1,[EN] In which volcanic zone is Mount Tongariro located?,en,simple,1.0,1.0,0.0,unchanged
-en_moa_q1,[EN] What type of birds were moa?,en,simple,1.0,1.0,0.0,unchanged
-en_kaka_q1,[EN] What is the scientific name of the New Zealand kākā?,en,simple,1.0,1.0,0.0,unchanged
-en_kakapo_q1,[EN] Can the kākāpō fly?,en,simple,1.0,1.0,0.0,unchanged
-en_muturangi_q1,[EN] What is the name of Muturangis octopus guardian spirit?,en,simple,1.0,1.0,0.0,unchanged
-en_taupo_q1,[EN] What type of lake is Lake Taupō?,en,simple,1.0,1.0,0.0,unchanged
-en_new_zealand_q1,[EN] In which ocean is New Zealand located?,en,simple,1.0,1.0,0.0,unchanged
-en_kea_q1,"[EN] What conflict with pastoral farming prompted systematic killing of this parrot, and what later legal protection (name and year) reversed its status?",en,complex,1.0,1.0,0.0,unchanged
-en_agathis_australis_q1,"[EN] Why might a forest be called 'kauri forest' even when kauri isn't the most abundant tree, and what ecosystem-engineering effect of kauri explains this naming?",en,complex,1.0,1.0,0.0,unchanged
-en_treaty_of_waitangi_q1,"[EN] Given that the treatys legal standing is contested and not directly enacted in domestic statute, what uncertainty does this create around sovereignty, and when and by whom was the agreement first signed?",en,complex,1.0,1.0,0.0,unchanged
-en_united_states_q1,"[EN] In terms of global standing, how does this country rank both by land area and by population, and roughly how many people live there?",en,complex,1.0,1.0,0.0,unchanged
-en_north_america_q1,"[EN] Summarize this continents scale and global share, then state its comparative rank by size and by population.",en,complex,1.0,1.0,0.0,unchanged
-mi_matariki_q1,[MI] He aha a Matariki?,mi,simple,0.0,1.0,1.0,improved
-mi_marae_q1,[MI] He aha te marae?,mi,simple,0.0,1.0,1.0,improved
-mi_tongariro_q1,[MI] He aha te teitei o Tongariro?,mi,simple,1.0,1.0,0.0,unchanged
-mi_moa_q1,[MI] He aha te āhua o ngā parirau o te moa?,mi,simple,1.0,1.0,0.0,unchanged
-mi_kea_q1,[MI] He aha te ingoa pūtaiao o te Kea?,mi,simple,1.0,1.0,0.0,unchanged
-mi_kauri_q1,[MI] He aha te ingoa pūtaiao o te Kauri?,mi,simple,0.0,1.0,1.0,improved
-mi_kaka_q1,[MI] He aha te ingoa pūtaiao o te Kākā?,mi,simple,1.0,0.0,-1.0,degraded
-mi_kakapo_q1,[MI] Ka rere rānei te Kākāpō?,mi,simple,0.0,1.0,1.0,improved
-mi_muturangi_q1,[MI] He aha te ingoa o te wheke a Muturangi?,mi,simple,1.0,1.0,0.0,unchanged
-mi_taupo_q1,[MI] He aha te ingoa o te moana wai māori?,mi,simple,1.0,0.0,-1.0,degraded
-mi_aotearoa_q1,[MI] Kei hea a Aotearoa?,mi,simple,0.0,1.0,1.0,improved
-mi_reo_maori_q1,"[MI] Ahakoa kua motu ngā hononga reo mō ngā rautau, pēhea i taea ai te whakawhiti kōrero tuatahi i waenga i a Kuki me ngā Māori, ā, nā wai te mahi matua i tutuki ai tēnā?",mi,complex,1.0,1.0,0.0,unchanged
-mi_te_tiriti_o_waitangi_q1,"[MI] E ai ki te kupu tomua, he aha te hiahia a te Kuini mō te whakarite kawanatanga kia tiakina ai ngā tāngata, ā, ko wai i tohua hei kawe i taua kaupapa, ā, mō hea?",mi,complex,0.0,0.0,0.0,unchanged
-mi_united_states_q1,"[MI] Ki te tirohanga o te ao whānui, kei te aha te tūranga o te Hononga-o-Amerika mō te taupori me te rahinga whenua, ā, tata ki te hia te tokomaha o te iwi?",mi,complex,1.0,0.0,-1.0,degraded
-mi_amerika_ki_te_raki_q1,"[MI] Whakamārama mai te tauine me te wehenga o tēnei paparahi: he aha tōna tūranga ki te ao mō te taupori me te rahinga whenua, ā, he pēhea tana ōwehenga ki te matawhenua me te mata katoa o te ao?",mi,complex,1.0,0.0,-1.0,degraded
+task_id,query,lang,complexity,query_type,baseline_gc,embeddings_gc,improvement,status
+en_maori_language_q1,[EN] What act gave Māori language official status in New Zealand?,en,simple,general,1.0,1.0,0.0,unchanged
+en_matariki_q1,[EN] What star cluster is Matariki?,en,simple,cultural_specific,1.0,1.0,0.0,unchanged
+en_marae_q1,[EN] What is a marae in Polynesian societies?,en,simple,cultural_specific,1.0,1.0,0.0,unchanged
+en_mount_tongariro_q1,[EN] In which volcanic zone is Mount Tongariro located?,en,simple,cultural_specific,1.0,1.0,0.0,unchanged
+en_moa_q1,[EN] What type of birds were moa?,en,simple,general,1.0,1.0,0.0,unchanged
+en_kaka_q1,[EN] What is the scientific name of the New Zealand kākā?,en,simple,general,1.0,1.0,0.0,unchanged
+en_kakapo_q1,[EN] Can the kākāpō fly?,en,simple,general,1.0,1.0,0.0,unchanged
+en_muturangi_q1,[EN] What is the name of Muturangis octopus guardian spirit?,en,simple,general,1.0,1.0,0.0,unchanged
+en_taupo_q1,[EN] What type of lake is Lake Taupō?,en,simple,general,1.0,1.0,0.0,unchanged
+en_new_zealand_q1,[EN] In which ocean is New Zealand located?,en,simple,general,1.0,1.0,0.0,unchanged
+en_kea_q1,"[EN] What conflict with pastoral farming prompted systematic killing of this parrot, and what later legal protection (name and year) reversed its status?",en,complex,historical_legal,1.0,1.0,0.0,unchanged
+en_agathis_australis_q1,"[EN] Why might a forest be called 'kauri forest' even when kauri isn't the most abundant tree, and what ecosystem-engineering effect of kauri explains this naming?",en,complex,cultural_specific,1.0,1.0,0.0,unchanged
+en_treaty_of_waitangi_q1,"[EN] Given that the treatys legal standing is contested and not directly enacted in domestic statute, what uncertainty does this create around sovereignty, and when and by whom was the agreement first signed?",en,complex,historical_legal,1.0,1.0,0.0,unchanged
+en_united_states_q1,"[EN] In terms of global standing, how does this country rank both by land area and by population, and roughly how many people live there?",en,complex,international_comparative,1.0,1.0,0.0,unchanged
+en_north_america_q1,"[EN] Summarize this continents scale and global share, then state its comparative rank by size and by population.",en,complex,international_comparative,1.0,1.0,0.0,unchanged
+mi_matariki_q1,[MI] He aha a Matariki?,mi,simple,cultural_specific,0.0,1.0,1.0,improved
+mi_marae_q1,[MI] He aha te marae?,mi,simple,cultural_specific,0.0,1.0,1.0,improved
+mi_tongariro_q1,[MI] He aha te teitei o Tongariro?,mi,simple,cultural_specific,1.0,1.0,0.0,unchanged
+mi_moa_q1,[MI] He aha te āhua o ngā parirau o te moa?,mi,simple,general,1.0,1.0,0.0,unchanged
+mi_kea_q1,[MI] He aha te ingoa pūtaiao o te Kea?,mi,simple,cultural_specific,1.0,1.0,0.0,unchanged
+mi_kauri_q1,[MI] He aha te ingoa pūtaiao o te Kauri?,mi,simple,cultural_specific,0.0,1.0,1.0,improved
+mi_kaka_q1,[MI] He aha te ingoa pūtaiao o te Kākā?,mi,simple,general,1.0,0.0,-1.0,degraded
+mi_kakapo_q1,[MI] Ka rere rānei te Kākāpō?,mi,simple,general,0.0,1.0,1.0,improved
+mi_muturangi_q1,[MI] He aha te ingoa o te wheke a Muturangi?,mi,simple,general,1.0,1.0,0.0,unchanged
+mi_taupo_q1,[MI] He aha te ingoa o te moana wai māori?,mi,simple,general,1.0,0.0,-1.0,degraded
+mi_aotearoa_q1,[MI] Kei hea a Aotearoa?,mi,simple,cultural_specific,0.0,1.0,1.0,improved
+mi_reo_maori_q1,"[MI] Ahakoa kua motu ngā hononga reo mō ngā rautau, pēhea i taea ai te whakawhiti kōrero tuatahi i waenga i a Kuki me ngā Māori, ā, nā wai te mahi matua i tutuki ai tēnā?",mi,complex,general,1.0,1.0,0.0,unchanged
+mi_te_tiriti_o_waitangi_q1,"[MI] E ai ki te kupu tomua, he aha te hiahia a te Kuini mō te whakarite kawanatanga kia tiakina ai ngā tāngata, ā, ko wai i tohua hei kawe i taua kaupapa, ā, mō hea?",mi,complex,general,0.0,0.0,0.0,unchanged
+mi_united_states_q1,"[MI] Ki te tirohanga o te ao whānui, kei te aha te tūranga o te Hononga-o-Amerika mō te taupori me te rahinga whenua, ā, tata ki te hia te tokomaha o te iwi?",mi,complex,cultural_specific,1.0,0.0,-1.0,degraded
+mi_amerika_ki_te_raki_q1,"[MI] Whakamārama mai te tauine me te wehenga o tēnei paparahi: he aha tōna tūranga ki te ao mō te taupori me te rahinga whenua, ā, he pēhea tana ōwehenga ki te matawhenua me te mata katoa o te ao?",mi,complex,cultural_specific,1.0,0.0,-1.0,degraded

@@ -287,7 +287,7 @@ if df_pilot is not None:
     output_dir = Path("../outputs")
     output_dir.mkdir(exist_ok=True)
     
-    output_path = output_dir / "pilot_results_day1.csv"
+    output_path = output_dir / "pilot_results.csv"
     df_pilot.to_csv(output_path, index=False)
     print(f"\nSaved pilot results to: {output_path}")
 
