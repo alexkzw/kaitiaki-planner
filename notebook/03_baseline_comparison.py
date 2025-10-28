@@ -13,7 +13,7 @@ Generates:
 
 Input files:
 - outputs/baseline_bm25_results.csv
-- outputs/embeddings_results.csv (or full_evaluation_results.csv)
+- outputs/full_evaluation_results.csv)
 
 Output:
 - outputs/baseline_vs_embeddings_comparison.csv
@@ -42,8 +42,6 @@ print("="*70)
 
 baseline_path = Path("../outputs/baseline_bm25_results.csv")
 
-# Always use full_evaluation_results.csv as the authoritative embeddings results
-# (embeddings_results.csv is deprecated - may contain outdated data)
 embeddings_path = Path("../outputs/full_evaluation_results.csv")
 print(f"\nUsing full_evaluation_results.csv as embeddings results")
 
