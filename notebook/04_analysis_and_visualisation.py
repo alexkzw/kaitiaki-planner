@@ -12,11 +12,10 @@ ENHANCEMENTS:
 Key analyses:
 1. Overall performance comparison (with baseline)
 2. Fairness gap analysis (null result interpretation)
-3. Before/after improvement (BM25 → Embeddings) by complexity
+3. Before/after improvement (BM25 -> Embeddings) by complexity
 4. Query-level success/failure breakdown with categorization
 5. Trade-off analysis visualizations
 
-Expected time: 10-15 minutes
 """
 
 import pandas as pd
@@ -123,10 +122,10 @@ summary.to_csv(output_dir / "summary_by_condition.csv")
 print(f"\nSaved: outputs/summary_by_condition.csv")
 
 # ============================================================================
-# 4. ENHANCED: Complexity-Specific Performance
+# 4. Complexity-Specific Performance
 # ============================================================================
 
-print("\n4. ENHANCED: Complexity-specific performance analysis...")
+print("\n4. Complexity-specific performance analysis...")
 print("="*70)
 
 complexity_analysis = []
@@ -147,7 +146,7 @@ for mode in df['mode'].unique():
 
 df_complexity = pd.DataFrame(complexity_analysis)
 
-print("\nPerformance Breakdown (Mode × Language × Complexity):")
+print("\nPerformance Breakdown (Mode + Language + Complexity):")
 print("-"*80)
 for mode in ['uniform', 'language_aware', 'fairness_aware']:
     print(f"\n{mode.upper()}:")
@@ -188,7 +187,7 @@ print(f"\nSaved: outputs/fairness_gaps.csv")
 # 6. Performance by Slice
 # ============================================================================
 
-print("\n6. Performance by slice (language × complexity)...")
+print("\n6. Performance by slice (language + complexity)...")
 print("="*70)
 
 slice_summary = create_slice_summary(df)
@@ -214,10 +213,10 @@ cost_eff.to_csv(output_dir / "cost_effectiveness.csv", index=False)
 print(f"\nSaved: outputs/cost_effectiveness.csv")
 
 # ============================================================================
-# 8. ENHANCED Visualizations
+# 8. Visualizations
 # ============================================================================
 
-print("\n8. Creating ENHANCED visualizations...")
+print("\n8. Creating visualizations...")
 print("="*70)
 
 sns.set_style("whitegrid")
@@ -260,7 +259,7 @@ ax.grid(axis='y', alpha=0.3)
 
 plt.tight_layout()
 plt.savefig(figures_dir / "gc_by_condition_language.png", dpi=300, bbox_inches='tight')
-print(f"  ✓ Saved: outputs/figures/gc_by_condition_language.png")
+print(f"Saved: outputs/figures/gc_by_condition_language.png")
 plt.close()
 
 # Figure 2: Fairness Gaps (Original)
@@ -291,11 +290,11 @@ ax.grid(axis='y', alpha=0.3)
 
 plt.tight_layout()
 plt.savefig(figures_dir / "fairness_gaps_chart.png", dpi=300, bbox_inches='tight')
-print(f"  ✓ Saved: outputs/figures/fairness_gaps_chart.png")
+print(f"Saved: outputs/figures/fairness_gaps_chart.png")
 plt.close()
 
-# Figure 3: ENHANCED - Complexity Breakdown for Māori
-print("  Creating Figure 3: ENHANCED - Māori performance by complexity...")
+# Figure 3: Complexity Breakdown for Māori
+print("  Creating Figure 3: Māori performance by complexity...")
 
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
 
@@ -347,11 +346,11 @@ ax2.grid(axis='y', alpha=0.3)
 
 plt.tight_layout()
 plt.savefig(figures_dir / "gc_by_complexity.png", dpi=300, bbox_inches='tight')
-print(f"  ✓ Saved: outputs/figures/gc_by_complexity.png")
+print(f"Saved: outputs/figures/gc_by_complexity.png")
 plt.close()
 
-# Figure 4: ENHANCED - Trade-off Analysis (BM25 vs Embeddings by Complexity)
-print("  Creating Figure 4: ENHANCED - Trade-off analysis (Complexity regression)...")
+# Figure 4: Trade-off Analysis (BM25 vs Embeddings by Complexity)
+print("  Creating Figure 4: Trade-off analysis (Complexity regression)...")
 
 # Load baseline if available
 baseline_path = Path("../outputs/baseline_bm25_results.csv")
@@ -400,13 +399,13 @@ if baseline_path.exists():
     ax.grid(axis='y', alpha=0.3)
     
     # Add annotation box for complex regression
-    ax.text(1, 0.5, '⚠️ REGRESSION:\nComplex queries degrade\nwith embeddings', 
+    ax.text(1, 0.5, 'REGRESSION:\nComplex queries degrade\nwith embeddings', 
            bbox=dict(boxstyle='round', facecolor='#FFE5B4', alpha=0.8),
            ha='center', fontsize=10, fontweight='bold')
     
     plt.tight_layout()
     plt.savefig(figures_dir / "tradeoff_complexity_breakdown.png", dpi=300, bbox_inches='tight')
-    print(f"  ✓ Saved: outputs/figures/tradeoff_complexity_breakdown.png (NEW)")
+    print(f"Saved: outputs/figures/tradeoff_complexity_breakdown.png")
     plt.close()
 
 # Figure 5: Null Result Visualization
@@ -440,11 +439,11 @@ ax.set_ylim([0, 1.0])
 
 plt.tight_layout()
 plt.savefig(figures_dir / "null_result_identical_conditions.png", dpi=300, bbox_inches='tight')
-print(f"  ✓ Saved: outputs/figures/null_result_identical_conditions.png")
+print(f"Saved: outputs/figures/null_result_identical_conditions.png")
 plt.close()
 
-# Figure 6: ENHANCED - Query Type Performance Heatmap
-print("  Creating Figure 6: ENHANCED - Query-type performance heatmap...")
+# Figure 6: Query Type Performance Heatmap
+print("  Creating Figure 6: Query-type performance heatmap...")
 
 # Categorize queries from baseline
 if baseline_path.exists():
@@ -491,16 +490,16 @@ if baseline_path.exists():
         
         plt.tight_layout()
         plt.savefig(figures_dir / "query_type_performance.png", dpi=300, bbox_inches='tight')
-        print(f"  ✓ Saved: outputs/figures/query_type_performance.png (NEW)")
+        print(f"Saved: outputs/figures/query_type_performance.png")
         plt.close()
 
-print("\n✓ All ENHANCED visualizations created")
+print("\nAll visualizations created")
 
 # ============================================================================
-# 9. Key Findings (Updated)
+# 9. Key Findings
 # ============================================================================
 
-print("\n9. Generating ENHANCED key findings...")
+print("\n9. Generating key findings...")
 print("="*70)
 
 uniform_gap = df[df['mode']=='uniform'].groupby('lang')['gc'].mean()
@@ -510,10 +509,10 @@ uniform_gap_value = uniform_gap['en'] - uniform_gap['mi']
 mi_simple_perf = df[(df['lang']=='mi') & (df['complexity']=='simple')]['gc'].mean()
 mi_complex_perf = df[(df['lang']=='mi') & (df['complexity']=='complex')]['gc'].mean()
 
-print("\nKEY FINDINGS SUMMARY (ENHANCED)")
+print("\nKEY FINDINGS SUMMARY")
 print("="*70)
 
-print(f"\n1. COMPLEXITY PARADOX (NEW INSIGHT):")
+print(f"\n1. COMPLEXITY PARADOX:")
 print(f"   Māori SIMPLE queries: {mi_simple_perf:.1%}")
 print(f"   Māori COMPLEX queries: {mi_complex_perf:.1%}")
 print(f"   Difference: {(mi_complex_perf - mi_simple_perf)*100:.1f} pp")
@@ -528,7 +527,7 @@ if baseline_path.exists():
     print(f"   - Complex: {bm25_mi_complex:.1%} (Current: {mi_complex_perf:.1%}) [{(mi_complex_perf-bm25_mi_complex)*100:+.1f}pp]")
     
     if mi_complex_perf < bm25_mi_complex:
-        print(f"\n   ⚠️  REGRESSION: Complex Māori queries perform WORSE with embeddings!")
+        print(f"\n    REGRESSION: Complex Māori queries perform WORSE with embeddings!")
         print(f"      This suggests a trade-off in retrieval strategy")
 
 print(f"\n2. NULL RESULT: Budget Allocation Has No Effect")
@@ -550,28 +549,12 @@ findings_enhanced = {
 
 findings_df = pd.DataFrame([findings_enhanced])
 findings_df.to_csv(output_dir / "key_findings_enhanced.csv", index=False)
-print(f"\n✓ Saved: outputs/key_findings_enhanced.csv")
+print(f"\nSaved: outputs/key_findings_enhanced.csv")
 
 # ============================================================================
 # 10. Summary
 # ============================================================================
 
 print("\n" + "="*70)
-print("ENHANCED ANALYSIS COMPLETE")
+print("ANALYSIS COMPLETE")
 print("="*70)
-
-print("\nNew Files Created:")
-print("  • key_findings_enhanced.csv (with complexity analysis)")
-
-print("\nNEW Visualizations:")
-print("  • figures/tradeoff_complexity_breakdown.png ⭐ (Trade-off visualization)")
-print("  • figures/query_type_performance.png ⭐ (Query-type breakdown)")
-
-print("\nKey Enhanced Insights:")
-print(f"  1. Complexity paradox: Simple Māori {mi_simple_perf:.1%} vs Complex {mi_complex_perf:.1%}")
-if baseline_path.exists():
-    print(f"  2. Regression detected: Complex queries -50% with embeddings")
-print("  3. Trade-off confirmed: Better cultural understanding, worse international reasoning")
-print("  4. Hybrid approach recommended for future work")
-
-print("\n" + "="*70)
