@@ -1,8 +1,0 @@
-id,lang,complexity,gc,cost,refusal,lat_ms,input_tokens,output_tokens,answer_preview
-en_maori_language_q1,en,simple,0.0,0.0015210000000000002,False,4025.061845779419,362,29,The Māori Language Act 1987 gave Māori language official status in New Zealand [
-en_matariki_q1,en,simple,0.0,0.0021780000000000002,False,3089.430093765259,391,67,"Based on the passages provided, Matariki is the Pleiades star cluster [Passage 1"
-en_marae_q1,en,simple,0.0,0.002334,False,3622.300863265991,363,83,"Based on the passages provided:
-
-A marae is a communal or sacred place that serv"
-en_mount_tongariro_q1,en,simple,0.0,0.001719,False,3037.9037857055664,413,32,Mount Tongariro is located in the Taupō Volcanic Zone of the North Island of New
-en_moa_q1,en,simple,0.0,0.0018570000000000001,False,3135.455846786499,359,52,"Based on the passage provided, moa were **flightless birds** that were formerly "
