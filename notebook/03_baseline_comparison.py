@@ -1,5 +1,5 @@
 """
-Baseline vs Embeddings Comparison Analysis (ENHANCED)
+Baseline vs Embeddings Comparison Analysis 
 =====================================================
 
 Compares BM25 baseline results with embeddings-based results to quantify
@@ -74,7 +74,7 @@ def categorize_query_type(task_id, lang, complexity, query_text):
 # ============================================================================
 
 print("="*80)
-print("ENHANCED BASELINE VS EMBEDDINGS COMPARISON")
+print("BASELINE VS EMBEDDINGS COMPARISON")
 print("="*80)
 
 baseline_path = Path("../outputs/baseline_bm25_results.csv")
@@ -221,11 +221,11 @@ print(f"   Reduction:         -{gap_reduction:.1%}")
 print(f"   % reduction:       {(gap_reduction/uniform_baseline_gap)*100:.1f}%")
 
 # ============================================================================
-# ENHANCED: Complexity-Specific Analysis
+# Complexity-Specific Analysis
 # ============================================================================
 
 print("\n" + "="*80)
-print("COMPLEXITY-SPECIFIC ANALYSIS (ENHANCED)")
+print("COMPLEXITY-SPECIFIC ANALYSIS")
 print("="*80)
 
 # Māori simple queries
@@ -260,15 +260,15 @@ complex_change = embed_mi_complex - baseline_mi_complex
 print(f"\nMāori SIMPLE Queries:")
 print(f"  BM25:      {baseline_mi_simple:.1%}")
 print(f"  Embeddings: {embed_mi_simple:.1%}")
-print(f"  Change:    {simple_improvement:+.1%} {'✓ IMPROVEMENT' if simple_improvement > 0 else '✗ REGRESSION'}")
+print(f"  Change:    {simple_improvement:+.1%} {'IMPROVEMENT' if simple_improvement > 0 else 'REGRESSION'}")
 
 print(f"\nMāori COMPLEX Queries:")
 print(f"  BM25:      {baseline_mi_complex:.1%}")
 print(f"  Embeddings: {embed_mi_complex:.1%}")
-print(f"  Change:    {complex_change:+.1%} {'✓ IMPROVEMENT' if complex_change > 0 else '✗ REGRESSION'}")
+print(f"  Change:    {complex_change:+.1%} {'IMPROVEMENT' if complex_change > 0 else 'REGRESSION'}")
 
 if complex_change < 0:
-    print(f"\n⚠️  CRITICAL: Complex Māori queries REGRESSED with semantic embeddings!")
+    print(f"\n CRITICAL: Complex Māori queries REGRESSED with semantic embeddings!")
     print(f"   This suggests a trade-off: embeddings excel at cultural concepts")
     print(f"   but struggle with international/comparative reasoning tasks.")
 
@@ -395,7 +395,7 @@ if len(improved_queries) > 0:
 else:
     print(f"  (None)")
 
-# ENHANCED: Show queries that degraded with categorization
+# Show queries that degraded with categorization
 print(f"\n✗ Queries that degraded (1→0) - CRITICAL REGRESSIONS:")
 degraded_queries = df_query_improvements[
     (df_query_improvements['baseline_gc'] == 1) &
@@ -406,7 +406,7 @@ if len(degraded_queries) > 0:
     for _, row in degraded_queries.iterrows():
         print(f"  - {row['task_id']} ({row['lang']}, {row['complexity']}, {row['query_type']})")
         if row['lang'] == 'mi':
-            print(f"    ⚠️  Māori query: {row['query'][:70]}...")
+            print(f"    Māori query: {row['query'][:70]}...")
 else:
     print(f"  (None)")
 
@@ -425,11 +425,11 @@ else:
     print(f"  (None - all failures were fixed!)")
 
 # ============================================================================
-# ENHANCED: Query Type Performance Analysis
+# Query Type Performance Analysis
 # ============================================================================
 
 print("\n" + "="*80)
-print("QUERY-TYPE PERFORMANCE ANALYSIS (ENHANCED)")
+print("QUERY-TYPE PERFORMANCE ANALYSIS")
 print("="*80)
 
 # Analyze Māori queries by type
@@ -478,8 +478,8 @@ print(f"Baseline Fail           {contingency_table[0,0]:>15}    {contingency_tab
 print(f"Baseline Pass           {contingency_table[1,0]:>15}    {contingency_table[1,1]:>15}")
 
 # McNemar test (using binomial test)
-b = contingency_table[0,1]  # Fail→Pass
-c = contingency_table[1,0]  # Pass→Fail
+b = contingency_table[0,1]  # Fail -> Pass
+c = contingency_table[1,0]  # Pass -> Fail
 n = b + c
 
 if n > 0:
@@ -490,8 +490,8 @@ if n > 0:
         p_value = binomtest(b, n, 0.5, alternative='two-sided')
 
     print(f"\nMcNemar's Test (Binomial approximation):")
-    print(f"  Fail→Pass (improvements): {b}")
-    print(f"  Pass→Fail (degradations): {c}")
+    print(f"  Fail -> Pass (improvements): {b}")
+    print(f"  Pass -> Fail (degradations): {c}")
     print(f"  p-value: {p_value:.4f}")
 
     if p_value < 0.05:
@@ -502,11 +502,11 @@ else:
     print(f"\nMcNemar's Test: N/A (no discordant pairs)")
 
 # ============================================================================
-# ENHANCED: Trade-off Analysis and Recommendations
+# Trade-off Analysis and Recommendations
 # ============================================================================
 
 print("\n" + "="*80)
-print("ARCHITECTURAL TRADE-OFF ANALYSIS (ENHANCED)")
+print("ARCHITECTURAL TRADE-OFF ANALYSIS")
 print("="*80)
 
 print(f"\n1. COMPLEXITY TRADE-OFF:")
@@ -551,7 +551,7 @@ comparison_path = output_dir / "baseline_vs_embeddings_comparison.csv"
 df_comparison.to_csv(comparison_path, index=False)
 print(f"\nSaved overall comparison to: {comparison_path}")
 
-# Save query-level improvements (ENHANCED with query_type)
+# Save query-level improvements (with query_type)
 query_improvements_path = output_dir / "query_level_improvements.csv"
 df_query_improvements.to_csv(query_improvements_path, index=False)
 print(f"Saved query-level analysis to: {query_improvements_path}")
