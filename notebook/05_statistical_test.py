@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-Statistical Significance Testing (ENHANCED)
+Statistical Significance Testing
 ==============================================
 
-This script runs statistical tests on the evaluation results with enhanced insights:
+This script runs statistical tests on the evaluation results:
 
 ENHANCEMENTS:
 1. Complexity-specific t-tests (simple vs complex Māori queries)
@@ -19,8 +19,6 @@ Key analyses:
 - Regression tests: Compare BM25 vs Embeddings by complexity
 - Trade-off analysis: Statistical proof of trade-off
 
-Cost: $0.00 (no API calls)
-Expected time: 5-10 minutes
 """
 
 import pandas as pd
@@ -35,12 +33,6 @@ from analysis_utils import (
     format_pvalue
 )
 
-print("="*80)
-print("ENHANCED STATISTICAL TESTING")
-print("="*80)
-print("Cost: $0.00 (no API calls)")
-print("="*80)
-
 # ============================================================================
 # 1. Load Results
 # ============================================================================
@@ -50,18 +42,18 @@ print("\n1. Loading evaluation results...")
 results_path = Path("../outputs/full_evaluation_results.csv")
 
 if not results_path.exists():
-    print(f"❌ ERROR: Results file not found at {results_path}")
+    print(f"ERROR: Results file not found at {results_path}")
     print("   Run 02_full_evaluation.py first to generate results")
     exit(1)
 
 df = pd.read_csv(results_path)
-print(f"✓ Loaded {len(df)} rows")
+print(f"Loaded {len(df)} rows")
 
 output_dir = Path("../outputs")
 output_dir.mkdir(exist_ok=True)
 
 # ============================================================================
-# 2. T-Tests: EN vs MI per Condition (ORIGINAL)
+# 2. T-Tests: EN vs MI per Condition
 # ============================================================================
 
 print("\n2. Running t-tests (EN vs MI within each condition)...")
@@ -90,13 +82,13 @@ for _, test in tests_df.iterrows():
     print()
 
 tests_df.to_csv(output_dir / "statistical_tests.csv", index=False)
-print(f"💾 Saved: outputs/statistical_tests.csv")
+print(f"Saved: outputs/statistical_tests.csv")
 
 # ============================================================================
-# 3. ENHANCED: Complexity-Stratified T-Tests
+# 3. Complexity-Stratified T-Tests
 # ============================================================================
 
-print("\n3. ENHANCED: Complexity-stratified t-tests...")
+print("\n3. Complexity-stratified t-tests...")
 print("="*80)
 
 print("\nT-Tests by Query Complexity (Māori only):")
@@ -142,13 +134,13 @@ for mode in sorted(df['mode'].unique()):
 
 df_complexity_ttest = pd.DataFrame(complexity_ttest_results)
 df_complexity_ttest.to_csv(output_dir / "complexity_stratified_tests.csv", index=False)
-print(f"\n💾 Saved: outputs/complexity_stratified_tests.csv")
+print(f"\nSaved: outputs/complexity_stratified_tests.csv")
 
 # ============================================================================
-# 4. ENHANCED: Trade-off Detection (BM25 vs Embeddings by Complexity)
+# 4. Trade-off Detection (BM25 vs Embeddings by Complexity)
 # ============================================================================
 
-print("\n4. ENHANCED: Trade-off detection (BM25 vs Embeddings)...")
+print("\n4. Trade-off detection (BM25 vs Embeddings)...")
 print("="*80)
 
 baseline_path = Path("../outputs/baseline_bm25_results.csv")
@@ -189,9 +181,9 @@ if baseline_path.exists():
             print(f"  {'Paired' if paired else 'Independent'} t-test: t={t_stat:.3f}, p={p_val:.4f} {sig}")
             
             if change < 0:
-                print(f"  ⚠️  REGRESSION DETECTED: Performance decreased")
+                print(f"  REGRESSION DETECTED: Performance decreased")
             elif change > 0:
-                print(f"  ✓ IMPROVEMENT: Performance increased")
+                print(f"  IMPROVEMENT: Performance increased")
             else:
                 print(f"  = No change")
             
@@ -209,7 +201,7 @@ if baseline_path.exists():
     
     df_tradeoff = pd.DataFrame(tradeoff_results)
     df_tradeoff.to_csv(output_dir / "tradeoff_regression_analysis.csv", index=False)
-    print(f"\n💾 Saved: outputs/tradeoff_regression_analysis.csv")
+    print(f"\nSaved: outputs/tradeoff_regression_analysis.csv")
     
     # Complexity trade-off summary
     simple_change = df_tradeoff[df_tradeoff['complexity']=='simple']['change'].values
@@ -222,11 +214,11 @@ if baseline_path.exists():
         print(f"  Complex queries: {complex_change[0]:+.1%} (embeddings {'+improves' if complex_change[0] > 0 else '-regresses'})")
         
         if simple_change[0] > 0 and complex_change[0] < 0:
-            print(f"\n  ✓ TRADE-OFF CONFIRMED:")
+            print(f"\n  TRADE-OFF CONFIRMED:")
             print(f"    Embeddings improve simple but regress on complex queries")
             print(f"    Suggests architectural trade-off between query types")
 else:
-    print("\n⚠️  Baseline results not found - skipping trade-off analysis")
+    print("\n Baseline results not found - skipping trade-off analysis")
     print("   Run 02a_baseline_bm25_evaluation.py first")
 
 # ============================================================================
@@ -252,7 +244,7 @@ for _, test in tests_df.iterrows():
 effect_sizes = tests_df[['mode', 'cohens_d']].copy()
 effect_sizes['interpretation'] = effect_sizes['cohens_d'].apply(effect_size_interpretation)
 effect_sizes.to_csv(output_dir / "effect_sizes.csv", index=False)
-print(f"\n💾 Saved: outputs/effect_sizes.csv")
+print(f"\nSaved: outputs/effect_sizes.csv")
 
 # ============================================================================
 # 6. Confidence Intervals (with complexity breakdown)
@@ -298,7 +290,7 @@ for mode in sorted(modes):
 
 ci_df = pd.DataFrame(ci_results)
 ci_df.to_csv(output_dir / "confidence_intervals.csv", index=False)
-print(f"\n💾 Saved: outputs/confidence_intervals.csv")
+print(f"\nSaved: outputs/confidence_intervals.csv")
 
 # ============================================================================
 # 7. ANOVA: Comparing All Three Conditions
@@ -319,10 +311,10 @@ print(f"  P-value: {format_pvalue(p_val)}")
 print(f"  Degrees of freedom: between={len(modes)-1}, within={len(df)-len(modes)}")
 
 if p_val < 0.05:
-    print(f"  ✓ Interpretation: Significant difference exists between conditions (p < 0.05)")
+    print(f"     Interpretation: Significant difference exists between conditions (p < 0.05)")
     print(f"     Budget allocation strategies differ significantly.")
 else:
-    print(f"  ⚠️  Interpretation: No significant difference between conditions (p ≥ 0.05)")
+    print(f"     Interpretation: No significant difference between conditions (p ≥ 0.05)")
     print(f"     NULL RESULT: Budget allocation has no effect on performance.")
 
 uniform_mean = uniform_gc.mean()
@@ -348,13 +340,13 @@ anova_results = pd.DataFrame([{
     'null_result': p_val >= 0.05
 }])
 anova_results.to_csv(output_dir / "anova_results.csv", index=False)
-print(f"\n💾 Saved: outputs/anova_results.csv")
+print(f"\nSaved: outputs/anova_results.csv")
 
 # ============================================================================
-# 8. ENHANCED: Complexity-Stratified ANOVA
+# 8. Complexity-Stratified ANOVA
 # ============================================================================
 
-print("\n8. ENHANCED: Complexity-stratified ANOVA...")
+print("\n8. Complexity-stratified ANOVA...")
 print("="*80)
 
 for complexity in ['simple', 'complex']:
@@ -375,7 +367,7 @@ for complexity in ['simple', 'complex']:
         print(f"  Fairness-aware mean: {fair_complex.mean():.3f}")
         
         if p_val_c >= 0.05:
-            print(f"  ✓ No significant difference (budget allocation has no effect)")
+            print(f"No significant difference (budget allocation has no effect)")
 
 # ============================================================================
 # 9. Equivalence Testing: Prove Conditions are Identical
@@ -388,7 +380,7 @@ print("="*80)
 delta = 0.05  # Equivalence margin
 
 print(f"\nTwo One-Sided t-test (TOST) for Equivalence:")
-print(f"Equivalence margin: Δ = {delta}")
+print(f"Equivalence margin: {delta}")
 print("-" * 80)
 
 equiv_results = []
@@ -412,7 +404,7 @@ for mode1, mode2 in pairs:
     
     print(f"\n{mode1} vs {mode2}:")
     print(f"  Mean difference: {diff:.4f}")
-    print(f"  Equivalent (Δ < {delta}): {'✓ Yes' if equivalent else '✗ No'}")
+    print(f"  Equivalent (delta < {delta}): {'Yes' if equivalent else 'No'}")
     
     equiv_results.append({
         'comparison': f"{mode1} vs {mode2}",
@@ -425,7 +417,7 @@ for mode1, mode2 in pairs:
 
 df_equiv = pd.DataFrame(equiv_results)
 df_equiv.to_csv(output_dir / "equivalence_tests.csv", index=False)
-print(f"\n💾 Saved: outputs/equivalence_tests.csv")
+print(f"\nSaved: outputs/equivalence_tests.csv")
 
 # ============================================================================
 # 10. Pairwise Comparisons (t-tests between conditions)
@@ -462,7 +454,7 @@ for mode1, mode2 in pairs:
 
 df_pairwise = pd.DataFrame(pairwise_results)
 df_pairwise.to_csv(output_dir / "pairwise_comparisons.csv", index=False)
-print(f"\n💾 Saved: outputs/pairwise_comparisons.csv")
+print(f"\nSaved: outputs/pairwise_comparisons.csv")
 
 # ============================================================================
 # 11. Mann-Whitney U Tests (Non-parametric Alternative)
@@ -497,7 +489,7 @@ for mode in sorted(modes):
 
 mw_df = pd.DataFrame(mw_results)
 mw_df.to_csv(output_dir / "mannwhitney_tests.csv", index=False)
-print(f"\n💾 Saved: outputs/mannwhitney_tests.csv")
+print(f"\nSaved: outputs/mannwhitney_tests.csv")
 
 # ============================================================================
 # 12. Baseline Comparison with Statistical Tests
@@ -515,7 +507,7 @@ if baseline_path.exists():
     baseline_n = len(baseline_mi)
     print(f"  Loaded: {baseline_mi_perf:.3f} ({baseline_mi_count}/{baseline_n})")
 else:
-    print(f"\n⚠️  Baseline file not found, using fallback values")
+    print(f"\nBaseline file not found, using fallback values")
     baseline_mi_perf = 0.467
     baseline_mi_count = 7
     baseline_n = 15
@@ -545,13 +537,13 @@ contingency = np.array([
 chi2, p_val_prop, dof, expected = chi2_contingency(contingency)
 
 print(f"\nChi-Square Test (Proportion Comparison):")
-print(f"  χ² = {chi2:.3f}, p = {p_val_prop:.4f}")
-print(f"  Significant: {'✓ Yes (p < 0.05)' if p_val_prop < 0.05 else '✗ No (p ≥ 0.05)'}")
+print(f"  Chi-Square = {chi2:.3f}, p = {p_val_prop:.4f}")
+print(f"  Significant: {'Yes (p < 0.05)' if p_val_prop < 0.05 else 'No (p ≥ 0.05)'}")
 
 if p_val_prop < 0.05:
-    print(f"\n✓ CONFIRMED: Improvement from BM25 → Embeddings is statistically significant")
+    print(f"\nCONFIRMED: Improvement from BM25 -> Embeddings is statistically significant")
 else:
-    print(f"\n✗ Improvement is not statistically significant")
+    print(f"\nImprovement is not statistically significant")
 
 baseline_results = pd.DataFrame([{
     'method': 'BM25 (baseline)',
@@ -566,7 +558,7 @@ baseline_results = pd.DataFrame([{
 }])
 baseline_results['improvement'] = baseline_results['maori_performance'] - baseline_mi_perf
 baseline_results.to_csv(output_dir / "baseline_comparison.csv", index=False)
-print(f"\n💾 Saved: outputs/baseline_comparison.csv")
+print(f"\nSaved: outputs/baseline_comparison.csv")
 
 # ============================================================================
 # 13. Summary of Statistical Significance
@@ -575,7 +567,7 @@ print(f"\n💾 Saved: outputs/baseline_comparison.csv")
 print("\n13. Summary of statistical significance...")
 print("="*80)
 
-print("\n📊 SIGNIFICANCE SUMMARY")
+print("\nSIGNIFICANCE SUMMARY")
 print("-" * 80)
 
 n_sig_ttest = sum(tests_df['significant'])
@@ -593,10 +585,10 @@ print(f"  Overall: {'Significant' if p_val < 0.05 else 'NOT significant'} (p={p_
 print(f"  Interpretation: Budget allocation has {'EFFECT' if p_val < 0.05 else 'NO EFFECT'}")
 
 # ============================================================================
-# 14. ENHANCED: Trade-off and Regression Summary
+# 14. Trade-off and Regression Summary
 # ============================================================================
 
-print("\n14. ENHANCED: Trade-off and Regression Summary")
+print("\n14.Trade-off and Regression Summary")
 print("="*80)
 
 if 'tradeoff_results' in locals() and len(tradeoff_results) > 0:
@@ -605,90 +597,13 @@ if 'tradeoff_results' in locals() and len(tradeoff_results) > 0:
     
     print(f"\nComplexity-Based Trade-off:")
     print(f"  Simple Māori:  {simple_change:+.1%} {'(improvement)' if simple_change > 0 else '(regression)'}")
-    print(f"  Complex Māori: {complex_change:+.1%} {'(improvement)' if complex_change > 0 else '(REGRESSION ⚠️)'}")
+    print(f"  Complex Māori: {complex_change:+.1%} {'(improvement)' if complex_change > 0 else '(REGRESSION)'}")
     
     if simple_change > 0 and complex_change < 0:
-        print(f"\n  ✓ TRADE-OFF CONFIRMED:")
+        print(f"\n  TRADE-OFF CONFIRMED:")
         print(f"    Embeddings improve simple cultural queries")
         print(f"    But regress on complex international/reasoning queries")
         print(f"    Suggests different query types benefit from different retrievers")
 
-# ============================================================================
-# 15. Recommendations
-# ============================================================================
 
-print("\n15. Recommendations for thesis/report...")
-print("="*80)
 
-print("\n📝 FOR YOUR THESIS/REPORT:")
-print()
-print("Results Section:")
-print("  ✓ Report ANOVA showing no significant difference (p > 0.05)")
-print("  ✓ State: 'Budget allocation had no effect on performance'")
-print("  ✓ Show equivalence testing results (all Δ < 0.05)")
-print("  ✓ Report t-tests for EN-MI gaps within each condition")
-print("  ✓ Include complexity-stratified analysis (ENHANCED)")
-print("  ✓ Show trade-off analysis by complexity (ENHANCED)")
-print()
-print("Discussion Section:")
-print("  ✓ Interpret the null result as a key finding")
-print("  ✓ Explain: 'Retrieval quality, not budget, drives fairness'")
-print(f"  ✓ Compare: BM25 ({baseline_mi_perf:.1%}) → Embeddings ({current_mi_perf:.1%})")
-print("  ✓ Discuss complexity paradox (ENHANCED)")
-print("  ✓ Explain trade-off mechanisms (ENHANCED)")
-print("  ✓ Recommend hybrid approach for future work (ENHANCED)")
-print()
-print("Tables to Include:")
-print("  ✓ Table 1: ANOVA results (with null result)")
-print("  ✓ Table 2: Complexity-stratified tests (ENHANCED)")
-print("  ✓ Table 3: Trade-off regression analysis (ENHANCED)")
-print("  ✓ Table 4: T-tests for EN-MI gaps")
-print()
-print("Figures:")
-print("  ✓ Figure: Complexity breakdown (simple vs complex)")
-print("  ✓ Figure: Trade-off visualization (ENHANCED)")
-print("  ✓ Figure: Regression detection (ENHANCED)")
-
-# ============================================================================
-# 16. Final Summary
-# ============================================================================
-
-print("\n" + "="*80)
-print("✅ ENHANCED STATISTICAL TESTING COMPLETE")
-print("="*80)
-
-print("\n📁 Files created:")
-print("  ✓ statistical_tests.csv")
-print("  ✓ effect_sizes.csv")
-print("  ✓ confidence_intervals.csv")
-print("  ✓ anova_results.csv")
-print("  ✓ equivalence_tests.csv")
-print("  ✓ pairwise_comparisons.csv")
-print("  ✓ mannwhitney_tests.csv")
-print("  ✓ baseline_comparison.csv")
-print("  NEW:")
-print("  ✓ complexity_stratified_tests.csv (ENHANCED)")
-print("  ✓ tradeoff_regression_analysis.csv (ENHANCED)")
-
-print("\n📊 Key Statistical Findings:")
-print(f"  • ANOVA: p={'≥' if p_val >= 0.05 else '<'} 0.05 → NULL RESULT")
-print(f"  • All conditions statistically equivalent")
-print(f"  • EN-MI gaps significant: {n_sig_ttest}/{len(tests_df)} conditions")
-print(f"  • BM25 → Embeddings: +{improvement_relative:.0f}% improvement")
-if baseline_path.exists() and len(tradeoff_results) > 0:
-    print(f"  • Complexity trade-off: Simple +{tradeoff_results[0]['change_pct']:.0f}%, Complex {tradeoff_results[1]['change_pct']:.0f}%")
-
-print("\n🎯 Main Conclusions:")
-print("  1. Budget allocation has NO EFFECT (statistically proven)")
-print("  2. EN-MI gaps remain significant (large effect sizes)")
-print("  3. Improvement from BM25 is significant")
-print("  4. Complexity paradox detected: Trade-off between query types (ENHANCED)")
-print("  5. Retrieval quality > Budget allocation")
-
-print("\n📝 Next steps:")
-print("  1. Use ANOVA p-value to support null finding")
-print(f"  2. Report baseline comparison (improvement: {improvement_relative:.0f}%)")
-print("  3. Add complexity analysis to results")
-print("  4. Write Results and Discussion sections")
-
-print("\n" + "="*80)
