@@ -1,6 +1,7 @@
 # Kaitiaki-Planner: Budget-Aware RAG for Multilingual Fairness
 
-> **A capstone research project exploring fairness in bilingual Retrieval-Augmented Generation (RAG) systems for English and Te Reo Māori**
+**A capstone research project exploring fairness in bilingual Retrieval-Augmented Generation (RAG) systems for English and Te Reo Māori**
+
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
@@ -11,20 +12,20 @@
 
 ## Overview
 
-**Kaitiaki-Planner** investigates whether **dynamic budget allocation** in RAG systems can reduce performance disparities between high-resource (English) and low-resource (Te Reo Māori) languages. Grounded in the Māori concept of **kaitiakitanga** (guardianship), the system allocates computational resources to protect the integrity of indigenous language interactions with AI.
+*Kaitiaki-Planner* investigates whether *dynamic budget allocation* in RAG systems can reduce performance disparities between high-resource (English) and low-resource (Te Reo Māori) languages. Grounded in the Māori concept of *kaitiakitanga* (guardianship), the system allocates computational resources to protect the integrity of indigenous language interactions with AI.
 
 ### Key Findings
 
 | Metric | BM25 Baseline | Embeddings | Improvement |
 |--------|---------------|------------|-------------|
-| **Te Reo Māori Accuracy** | 53.3% (8/15) | 80.0% (12/15) | **+50%** |
-| **English Accuracy** | 100% (15/15) | 100% (15/15) | 0% (ceiling) |
-| **Fairness Gap (EN-MI)** | 46.7% | 20.0% | **-57.1%** |
-| **Budget Allocation Effect** | — | **No effect** (p = 1.0) | Null result |
+| *Te Reo Māori Accuracy* | 53.3% (8/15) | 80.0% (12/15) | *+50%* |
+| *English Accuracy* | 100% (15/15) | 100% (15/15) | 0% (ceiling) |
+| *Fairness Gap (EN-MI)* | 46.7% | 20.0% | *-57.1%* |
+| *Budget Allocation Effect* | — | *No effect* (p = 1.0) | Null result |
 
-**Critical Insight**: Improving retrieval architecture (changing from BM25 to semantic embeddings) yielded **50% relative improvement** for Te Reo Māori, while sophisticated budget allocation provided **zero benefit** when retrieval quality was already high.
+*Critical Insight*: Improving retrieval architecture (changing from BM25 to semantic embeddings) yielded *50% relative improvement* for Te Reo Māori, while sophisticated budget allocation provided *zero benefit* when retrieval quality was already high.
 
-**Conclusion**: **Retrieval quality > Budget allocation**
+*Conclusion*: *Retrieval quality > Budget allocation*
 
 ---
 
@@ -38,7 +39,6 @@
 
 ### Installation
 
-```bash
 # Clone repository
 git clone https://github.com/alexkzw/kaitiaki-planner.git
 cd kaitiaki-planner
@@ -56,11 +56,9 @@ npm install
 
 # Set up environment
 echo "ANTHROPIC_API_KEY=your_key_here" > ../../notebook/.env
-```
 
 ### Running the System
 
-```bash
 
 # Phase 2A: Running BM25 Baseline Evaluation
 
@@ -73,13 +71,19 @@ npm run dev
 cd services/retriever-py
 python -m uvicorn app:app --port 8001
 
+# Terminal 3: Run setup and testing 
+# verifies that the system works
+cd notebook
+python 01_setup_and_testing.py
+
 # Terminal 3: Run BM25 evaluation
 # Evaluates 30 queries using BM25 retriever
 # Saves results to outputs/baseline_bm25_results.csv
 cd notebook
 python 02a_baseline_bm25_evaluation.py
 
-# Phase 2B: Running BM25 Baseline Evaluation
+# Phase 2B: Running embeddings evaluation 
+
 # STOP BM25 Retriever (Terminal 2 - retriver-py)
 # Keep Terminal 1 orchestrator running 
 
@@ -89,18 +93,33 @@ python 02a_baseline_bm25_evaluation.py
 cd notebook
 python retriever_embeddings.py
 
+# Terminal 3: Run test embedding retriever 
+# Verifies embedding retriever is working correctly 
+cd notebook
+python test_embedding_retriever.py
 
-# Terminal 3: Run evaluation
+# Phase 3: Run Embeddings Evaluation (Terminal 3)
+# Evaluates 90 queries using the embeddings retriever
+# Saves results to outputs/full_evaluation_results.csv
 cd notebook
 python 02_full_evaluation.py
-# Cost: ~$0.40
-```
+
+# Phase 4: Compare & Analyse
+
+# Compare BM25 vs Embeddings
+cd notebook
+python 03_baseline_comparison.py
+
+# Generate figures
+python 04_analysis_and_visualisation.py
+
+# Run statistical tests
+python 05_statistical_test.py
 
 ---
 
 ## Project Structure
 
-```
 kaitiaki-planner/
 ├── data/                          # Knowledge base
 │   ├── corpus.json                # 30 Wikipedia docs (15 EN, 15 MI)
@@ -129,7 +148,6 @@ kaitiaki-planner/
 │   └── capstone_report.pdf        # 4-page technical report
 │
 └── README.md
-```
 
 ---
 
@@ -137,28 +155,26 @@ kaitiaki-planner/
 
 The system implements a three-stage RAG pipeline:
 
-```
 User Query -> Orchestrator (Budget Planning) -> Retriever (Semantic Search)
     -> Claude 3.5 Sonnet (Answer Generation) -> Grounded Answer
-```
 
 ### Three Budget Allocation Strategies
 
 | Strategy | Description | English Budget | Māori Budget |
 |----------|-------------|----------------|--------------|
-| **Uniform** | Equal treatment (baseline) | 5 docs | 5 docs |
-| **Language-Aware** | More context for low-resource language | 5 docs | 8 docs |
-| **Fairness-Aware** | Prioritize Māori + complex queries | 5 docs (simple)<br>8 docs (complex) | 8 docs |
+| *Uniform* | Equal treatment (baseline) | 5 docs | 5 docs |
+| *Language-Aware* | More context for low-resource language | 5 docs | 8 docs |
+| *Fairness-Aware* | Prioritize Māori + complex queries | 5 docs (simple)<br>8 docs (complex) | 8 docs |
 
 ### Retrieval Methods
 
-**Baseline: BM25** (keyword-based)
+*Baseline: BM25* (keyword-based)
 - Fast exact matching
 - Poor semantic understanding
 - Results: 53.3% Māori accuracy
 
-**Improved: Semantic Embeddings** (multilingual)
-- Model: `paraphrase-multilingual-mpnet-base-v2` (768-dim)
+*Improved: Semantic Embeddings* (multilingual)
+- Model: paraphrase-multilingual-mpnet-base-v2 (768-dim)
 - Cosine similarity + keyword boost (1.2×)
 - Results: 80.0% Māori accuracy (+50% improvement)
 
@@ -168,23 +184,21 @@ User Query -> Orchestrator (Budget Planning) -> Retriever (Semantic Search)
 
 ### Dataset
 
-- **30 queries** (15 English, 15 Te Reo Māori)
-- **Topics**: Māori culture, NZ geography, wildlife, history
-- **Complexity**: 20 simple (factual), 10 complex (inference)
+- *30 queries* (15 English, 15 Te Reo Māori)
+- *Topics*: Māori culture, NZ geography, wildlife, history
+- *Complexity*: 20 simple (factual), 10 complex (inference)
 
 ### Metric: Grounded Correctness (GC)
 
 Binary evaluation:
-```
 GC = 1  if (gold_doc_id in retrieved_passages) AND (answer cites gold passage)
 GC = 0  otherwise
-```
 
 ### Statistical Tests
 
-- **ANOVA** (F=0.000, p=1.0): No difference between budget conditions
-- **t-test** (p=0.0719): English-Māori gap marginally non-significant
-- **Cohen's d** (0.683): Medium effect size
+- *ANOVA* (F=0.000, p=1.0): No difference between budget conditions
+- *t-test* (p=0.0719): English-Māori gap marginally non-significant
+- *Cohen's d* (0.683): Medium effect size
 
 ---
 
@@ -193,46 +207,46 @@ GC = 0  otherwise
 ### Impact of Retrieval Quality
 
 Switching from BM25 to semantic embeddings:
-- **+71% relative improvement** for Te Reo Māori (8/15 → 12/15 queries)
-- **-57.1% reduction** in fairness gap (46.7% → 20.0%)
-- **Statistically significant** (Chi-square p < 0.05)
+- *+71% relative improvement* for Te Reo Māori (8/15 → 12/15 queries)
+- *-57.1% reduction* in fairness gap (46.7% → 20.0%)
+- *Statistically significant* (Chi-square p < 0.05)
 
 ### Null Result: Budget Allocation
 
 Allocating 60% more budget (5 to 8 documents):
-- **0% improvement** across all conditions
-- **p = 1.0** (perfect equivalence)
-- **Null finding**: Budget allocation provides no benefit when retrieval quality is high
+- *0% improvement* across all conditions
+- *p = 1.0* (perfect equivalence)
+- *Null finding*: Budget allocation provides no benefit when retrieval quality is high
 
 ---
 
 ## Ethical & Cultural Context
 
-This project centers **Māori data sovereignty** principles from [Te Mana Raraunga](https://www.temanararaunga.maori.nz/):
+This project centers *Māori data sovereignty* principles from [Te Mana Raraunga](https://www.temanararaunga.maori.nz/):
 
-- **Rangatiratanga** (Authority): Māori govern how Te Reo Māori appears in AI
-- **Whakapapa** (Relationality): Knowledge exists in cultural context
-- **Kaitiakitanga** (Guardianship): Computational stewardship responsibility
+- *Rangatiratanga* (Authority): Māori govern how Te Reo Māori appears in AI
+- *Whakapapa* (Relationality): Knowledge exists in cultural context
+- *Kaitiakitanga* (Guardianship): Computational stewardship responsibility
 
-See `outputs/capstone_report.pdf` for full ethical analysis.
+See outputs/capstone_report.pdf for full ethical analysis.
 
 ---
 
 ## Documentation
 
-- **[Capstone Report](outputs/capstone_report.pdf)** - 4-page technical report with ethical analysis
-- **[Data Attribution](data/ATTRIBUTION.md)** - CC-BY-SA license compliance
+- *[Capstone Report](outputs/capstone_report.pdf)* - 4-page technical report with ethical analysis
+- *[Data Attribution](data/ATTRIBUTION.md)* - CC-BY-SA license compliance
 ---
 
 ## Technologies
 
 | Component | Technology | Purpose |
 |-----------|-----------|---------|
-| **Orchestrator** | TypeScript + Fastify | Budget allocation logic |
-| **Retriever** | Python + FastAPI | Semantic search (embeddings) |
-| **LLM** | Claude 3.5 Sonnet | Answer generation (~$0.0048/query) |
-| **Embeddings** | sentence-transformers | Multilingual semantic vectors |
-| **Analysis** | SciPy + Matplotlib | Statistics & visualization |
+| *Orchestrator* | TypeScript + Fastify | Budget allocation logic |
+| *Retriever* | Python + FastAPI | Semantic search (embeddings) |
+| *LLM* | Claude 3.5 Sonnet | Answer generation (~$0.0048/query) |
+| *Embeddings* | sentence-transformers | Multilingual semantic vectors |
+| *Analysis* | SciPy + Matplotlib | Statistics & visualization |
 
 ---
 
@@ -240,7 +254,7 @@ See `outputs/capstone_report.pdf` for full ethical analysis.
 
 MIT License - See [LICENSE](LICENSE) file.
 
-**Educational Use**: This project is for academic research. Māori text used with cultural sensitivity and respect. Wikipedia content used under CC-BY-SA license (see `data/ATTRIBUTION.md`).
+*Educational Use*: This project is for academic research. Māori text used with cultural sensitivity and respect. Wikipedia content used under CC-BY-SA license (see data/ATTRIBUTION.md).
 
 ---
 
