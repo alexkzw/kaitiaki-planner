@@ -254,7 +254,7 @@ log.get("/test", async (req, reply) => {
 
 // Start server
 log.listen({ port: PORT, host: "0.0.0.0" }).then(() => {
-  console.log(`✓ Budget-Aware Orchestrator listening on port ${PORT}`);
-  console.log(`✓ Retriever service: ${RETRIEVER_BASE}`);
-  console.log(`✓ Available modes: uniform, language_aware, fairness_aware`);
+  console.log(`Budget-Aware Orchestrator listening on port ${PORT}`);
+  console.log(`Retriever service: ${RETRIEVER_BASE}`);
+  console.log(`Available modes: uniform, language_aware, fairness_aware`);
 });
